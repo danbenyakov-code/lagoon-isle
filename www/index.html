@@ -739,6 +739,26 @@ html[lang="he"] .mspot .mn{font-family:'Rubik',sans-serif;font-weight:800}
 #invChip.over{background:#E8574A}
 .btn.adb{display:inline-flex;align-items:center;gap:2px;padding:0 8px}.btn.adb .ii{width:18px;height:18px}
 .modal .btns .btn .ii{width:22px;height:22px;vertical-align:-5px}
+
+/* v17: hard quest, collection, tier fallback */
+.card.hq{position:relative;background:linear-gradient(180deg,#FFF6D6,#FFE6A3);box-shadow:0 0 0 2.5px #F5B83A,0 4px 0 #C98A1A,0 10px 20px rgba(120,70,0,.2);padding-top:22px}
+.card.hq.ready{animation:breathe 1.4s ease-in-out infinite}
+.hqtag{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:linear-gradient(#FF8A3D,#E0491F);color:#fff;font-family:var(--display);font-size:13px;padding:3px 12px;border-radius:10px;white-space:nowrap;box-shadow:0 2px 0 #9A2F10}
+html[lang="he"] .hqtag{font-family:'Rubik',sans-serif;font-weight:800}
+.hqrw{display:flex;gap:6px;justify-content:space-between;margin:10px 0 8px;flex-wrap:wrap}
+.hqrw span{display:inline-flex;align-items:center;gap:3px;background:rgba(255,255,255,.7);border-radius:10px;padding:4px 8px;font-weight:900;font-size:13px}
+.hqrw .ii{width:18px;height:18px}.hqrw span>.ar{width:30px;height:30px}
+.card.coll.off{opacity:.6}
+.cgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;margin:8px 0}
+.cgrid .ci{position:relative;aspect-ratio:1;border-radius:10px;background:#FBEBC7;padding:3px;box-shadow:inset 0 0 0 1.5px rgba(168,101,47,.2)}
+.cgrid .ci span{position:absolute;bottom:0;inset-inline-start:3px;font-size:9px;font-weight:900;color:#8A5328}
+.cgrid .ci.unk .ar{filter:brightness(0) opacity(.18)}
+.cgrid .ci i{position:absolute;inset:0;display:grid;place-items:center;font-style:normal;font-weight:900;color:#B08A5A;font-size:16px}
+.tierw{position:relative;display:block;width:100%;height:100%}
+.tierw img{filter:drop-shadow(0 0 4px #FFD453) saturate(1.25)}
+.tierw.t3 img,.tierw.t4 img{filter:drop-shadow(0 0 6px #B98BFF) saturate(1.4) hue-rotate(15deg)}
+.tierw.t5 img{filter:drop-shadow(0 0 8px #FF7AB0) saturate(1.6) hue-rotate(-20deg)}
+.tierw b{position:absolute;top:-2px;inset-inline-end:-2px;min-width:18px;height:18px;border-radius:9px;background:linear-gradient(#FFD453,#F5A315);color:#5A3300;font-size:10px;line-height:18px;text-align:center;box-shadow:0 0 0 1.5px #fff}
 </style>
 </head>
 <body>
@@ -793,7 +813,7 @@ html[lang="he"] .mspot .mn{font-family:'Rubik',sans-serif;font-weight:800}
 <script>
 /* =================== art: Fluent 3D emoji by Microsoft (MIT license, see art/LICENSE) =================== */
 const ART_KEYS=new Set(['addfriend', 'appicon', 'b0_0', 'b0_0_s1', 'b0_0_s2', 'b0_0_s3', 'b0_0_t1', 'b0_0_t2', 'b0_0_t3', 'b0_1', 'b0_1_s1', 'b0_1_s2', 'b0_1_s3', 'b0_1_t1', 'b0_1_t2', 'b0_1_t3', 'b0_2', 'b0_2_s1', 'b0_2_s2', 'b0_2_s3', 'b0_2_t1', 'b0_2_t2', 'b0_2_t3', 'b0_3', 'b0_3_s1', 'b0_3_s2', 'b0_3_s3', 'b0_3_t1', 'b0_3_t2', 'b0_3_t3', 'b0_4', 'b0_4_s1', 'b0_4_s2', 'b0_4_s3', 'b0_4_t1', 'b0_4_t2', 'b0_4_t3', 'b0_5', 'b0_5_s1', 'b0_5_s2', 'b0_5_s3', 'b0_5_t1', 'b0_5_t2', 'b0_5_t3', 'b1_0', 'b1_0_s1', 'b1_0_s2', 'b1_0_s3', 'b1_0_t1', 'b1_0_t2', 'b1_0_t3', 'b1_1', 'b1_1_s1', 'b1_1_s2', 'b1_1_s3', 'b1_1_t1', 'b1_1_t2', 'b1_1_t3', 'b1_2', 'b1_2_s1', 'b1_2_s2', 'b1_2_s3', 'b1_2_t1', 'b1_2_t2', 'b1_2_t3', 'b1_3', 'b1_3_s1', 'b1_3_s2', 'b1_3_s3', 'b1_3_t1', 'b1_3_t2', 'b1_3_t3', 'b1_4', 'b1_4_s1', 'b1_4_s2', 'b1_4_s3', 'b1_4_t1', 'b1_4_t2', 'b1_4_t3', 'b1_5', 'b1_5_s1', 'b1_5_s2', 'b1_5_s3', 'b1_5_t1', 'b1_5_t2', 'b1_5_t3', 'b2_0', 'b2_0_s1', 'b2_0_s2', 'b2_0_s3', 'b2_0_t1', 'b2_0_t2', 'b2_0_t3', 'b2_1', 'b2_1_s1', 'b2_1_s2', 'b2_1_s3', 'b2_1_t1', 'b2_1_t2', 'b2_1_t3', 'b2_2', 'b2_2_s1', 'b2_2_s2', 'b2_2_s3', 'b2_2_t1', 'b2_2_t2', 'b2_2_t3', 'b2_3', 'b2_3_s1', 'b2_3_s2', 'b2_3_s3', 'b2_3_t1', 'b2_3_t2', 'b2_3_t3', 'b2_4', 'b2_4_s1', 'b2_4_s2', 'b2_4_s3', 'b2_4_t1', 'b2_4_t2', 'b2_4_t3', 'b2_5', 'b2_5_s1', 'b2_5_s2', 'b2_5_s3', 'b2_5_t1', 'b2_5_t2', 'b2_5_t3', 'b3_0', 'b3_0_s1', 'b3_0_s2', 'b3_0_s3', 'b3_0_t1', 'b3_0_t2', 'b3_0_t3', 'b3_1', 'b3_1_s1', 'b3_1_s2', 'b3_1_s3', 'b3_1_t1', 'b3_1_t2', 'b3_1_t3', 'b3_2', 'b3_2_s1', 'b3_2_s2', 'b3_2_s3', 'b3_2_t1', 'b3_2_t2', 'b3_2_t3', 'b3_3', 'b3_3_s1', 'b3_3_s2', 'b3_3_s3', 'b3_3_t1', 'b3_3_t2', 'b3_3_t3', 'b3_4', 'b3_4_s1', 'b3_4_s2', 'b3_4_s3', 'b3_4_t1', 'b3_4_t2', 'b3_4_t3', 'b3_5', 'b3_5_s1', 'b3_5_s2', 'b3_5_s3', 'b3_5_t1', 'b3_5_t2', 'b3_5_t3', 'b4_0', 'b4_0_s1', 'b4_0_s2', 'b4_0_s3', 'b4_0_t1', 'b4_0_t2', 'b4_0_t3', 'b4_1', 'b4_1_s1', 'b4_1_s2', 'b4_1_s3', 'b4_1_t1', 'b4_1_t2', 'b4_1_t3', 'b4_2', 'b4_2_s1', 'b4_2_s2', 'b4_2_s3', 'b4_2_t1', 'b4_2_t2', 'b4_2_t3', 'b4_3', 'b4_3_s1', 'b4_3_s2', 'b4_3_s3', 'b4_3_t1', 'b4_3_t2', 'b4_3_t3', 'b4_4', 'b4_4_s1', 'b4_4_s2', 'b4_4_s3', 'b4_4_t1', 'b4_4_t2', 'b4_4_t3', 'b4_5', 'b4_5_s1', 'b4_5_s2', 'b4_5_s3', 'b4_5_t1', 'b4_5_t2', 'b4_5_t3', 'bag', 'bar_wood', 'beach1', 'beach2', 'beach3', 'beach4', 'beach5', 'beach6', 'beach7', 'bg_beach', 'board_frame', 'bolt', 'box', 'btn_blue', 'btn_boost2', 'btn_boost4', 'btn_green', 'btn_island', 'btn_plus', 'btn_wood', 'bubble', 'bx_shack_s1', 'bx_shack_s2', 'bx_shack_s3', 'card0', 'card1', 'card10', 'card11', 'card12', 'card13', 'card14', 'card15', 'card16', 'card17', 'card2', 'card3', 'card4', 'card5', 'card6', 'card7', 'card8', 'card9', 'check', 'chest1', 'chest2', 'chest3', 'clip', 'cloud', 'coco', 'coin', 'coin_tag', 'crown1', 'crown2', 'crown3', 'drink1', 'drink2', 'drink3', 'drink4', 'drink5', 'drink6', 'drink7', 'ev_badge', 'ev_banner', 'ev_chest', 'ev_frame', 'frame_avatar', 'frame_round', 'full_hero_f1', 'full_hero_f2', 'full_hero_f3', 'full_hero_f4', 'full_hero_m1', 'full_hero_m2', 'full_hero_m3', 'full_hero_m4', 'full_npc_baker', 'full_npc_fisher', 'full_npc_surfer', 'full_npc_traveler', 'garden1', 'garden2', 'garden3', 'garden4', 'garden5', 'garden6', 'garden7', 'gbeach', 'gdrink', 'gear', 'gem', 'gem1', 'gem2', 'gem3', 'ggarden', 'gift', 'glantern', 'grid', 'gtools', 'gtrip', 'hifive', 'hourglass', 'island', 'isle0', 'isle1', 'isle2', 'isle3', 'isle4', 'lantern1', 'lantern2', 'lantern3', 'lantern4', 'lantern5', 'lantern6', 'lantern7', 'lock', 'logo', 'map_bg', 'mile1', 'mile2', 'mile3', 'ok_check', 'ord_ticket', 'pack', 'panel_banner', 'party', 'piggy', 'podium', 'pop_close', 'pop_glow', 'pop_panel', 'pop_play', 'pop_star', 'pop_title', 'por_hero_f1', 'por_hero_f2', 'por_hero_f3', 'por_hero_f4', 'por_hero_m1', 'por_hero_m2', 'por_hero_m3', 'por_hero_m4', 'por_npc_baker', 'por_npc_fisher', 'por_npc_surfer', 'por_npc_traveler', 'q_build', 'q_coins', 'q_deliver', 'q_gems', 'q_merge', 'q_spawn', 'ribbon_red', 's_help', 's_lang', 's_logout', 's_mail', 's_music', 's_mute', 's_privacy', 's_sound', 's_sync', 'sail_boat', 'shop_e1000', 'shop_e300', 'shop_g1200', 'shop_g500', 'shop_g80', 'shop_starter', 'site', 'sparkles', 'splash_bg', 'star', 'tile_a', 'tile_b', 'tile_bub', 'tile_sel', 'tools1', 'tools2', 'tools3', 'tools4', 'tools5', 'tools6', 'tools7', 'trip1', 'trip2', 'trip3', 'trip4', 'trip5', 'trip6', 'trip7', 'trophy', 'tv']);
-const A=k=>ART_KEYS.has(k)?`<img class="ar" src="art/${k}.webp" alt="" draggable="false">`:'';
+const A=k=>{if(ART_KEYS.has(k))return `<img class="ar" src="art/${k}.webp" alt="" draggable="false">`;const m=/^(drink|beach|trip|garden|tools)(\d+)$/.exec(k);if(m&&+m[2]>7){let b=+m[2];while(b>1&&!ART_KEYS.has(m[1]+b))b--;return `<span class="ar tierw t${m[2]-7}"><img class="ar" src="art/${m[1]+b}.webp" alt="" draggable="false"><b>${m[2]}</b></span>`}return ''};
 const ic=k=>`<img class="ii" src="art/${k}.webp" alt="">`;
 /* =================== characters: 3D heads (Fluent, MIT) on a clean outfit bust =================== */
 const SKIN=['#FFCEB7','#EEB996','#BF897B','#8E5F5A','#4F3734'];
@@ -831,9 +851,9 @@ function avatar(w){if(w==='me')return por(S.player&&S.player.hero||'hero_f1');re
 /* =================== TEXT =================== */
 const L={
 he:{title:'אי הלגונה',board:'לוח',island:'איים',missions:'משימות',cards:'קלפים',shop:'חנות',full:'מלא',deliver:'מסור!',
- produce:'צור',adOnlyLow:'זמין כשהאנרגיה כמעט נגמרת',adWaitS:'אפשר לצפות שוב בעוד {0} שניות',adSkipped:'הפרסומת נסגרה לפני הסוף, אין פרס הפעם',adDouble:'צפה והכפל את המתנה',adDoubled:'המתנה הוכפלה! 🎉',adFree:'צפה ושחרר בחינם',adChest:'צפה וקבל +{0} פריטים',rankL:'דירוג',rankT:'דירוג',rkWeek:'השבוע',rkFriends:'חברים',rkAddPh:'כינוי של חבר',rkAdd:'הוסף',rkAdded:'החבר נוסף!',rkNotFound:'לא מצאנו שחקן עם הכינוי הזה',rkSelf:'זה הכינוי שלך 🙂',rkAlready:'כבר ברשימת החברים שלך',rkMax:'אפשר עד 50 חברים',rkSignIn:'צריך להתחבר כדי להוסיף חברים',rkOffT:'הדירוג החי זמין למחוברים',rkOff:'התחבר עם Google, Apple או מייל כדי להתחרות בשחקנים אמיתיים ולהוסיף חברים.',rkHow:'מדורגים לפי נקודות הפנסים של השבוע',rkEmpty:'עוד אין שחקנים השבוע. היה הראשון!',rkNoFriends:'הוסף חברים לפי הכינוי שלהם',you:'אתה',lvlShort:'רמה {0}',loading:'טוען...',nEnT:'האנרגיה מלאה ⚡',nEnB:'המחוללים מחכים לך. בוא למזג!',nGiftT:'המתנה היומית מחכה 🎁',nGiftB:'היכנס לקבל את המתנה של היום',nEvB:'נשאר יום אחרון לפסטיבל הפנסים! 🏮',needTool:'צריך {0} מהלוח. צור אותו בשולחן העבודה',prodHint:'לחץ על "צור" כדי להוציא פריט חדש',tapItem:'הקש על פריט כדי לראות מה הוא',tapGen:'מחוללים עם ⚡ מייצרים פריטים חדשים',genDesc:'{0}. כל הקשה עולה ⚡1',
+ produce:'צור',hqTitle:'⚡ אתגר היום הקשה',hqSub:'קשה מאוד, אבל הפרס שווה! מתאפס בחצות.',hqGo:'קדימה!',hqDoneT:'האתגר הקשה הושלם! 🏆',hq_make:'צור {2} בדרגה {1}',hq_merge:'בצע {0} מיזוגים היום',hq_deliver:'מסור {0} הזמנות היום',hq_energy:'השתמש ב {0} אנרגיה היום',hq_build:'בנה או שדרג {0} שלבים באי',q_chain:'צור 2 פריטים בדרגה {1} מ{2}',q_who:'מסור {0} הזמנות ל{2}',q_chest:'פתח {0} תיבות על הלוח',q_build:'בנה או שדרג {0} שלבים באי',collT:'אוסף מיזוגים',collSub:'גלה כל דרגה בכל שרשרת. השלמת שרשרת שלמה נותנת פרס גדול.',collDone:'השרשרת הושלמה! 🎉',collLock:'נפתח ברמה {0}',adOnlyLow:'זמין כשהאנרגיה כמעט נגמרת',adWaitS:'אפשר לצפות שוב בעוד {0} שניות',adSkipped:'הפרסומת נסגרה לפני הסוף, אין פרס הפעם',adDouble:'צפה והכפל את המתנה',adDoubled:'המתנה הוכפלה! 🎉',adFree:'צפה ושחרר בחינם',adChest:'צפה וקבל +{0} פריטים',rankL:'דירוג',rankT:'דירוג',rkWeek:'השבוע',rkFriends:'חברים',rkAddPh:'כינוי של חבר',rkAdd:'הוסף',rkAdded:'החבר נוסף!',rkNotFound:'לא מצאנו שחקן עם הכינוי הזה',rkSelf:'זה הכינוי שלך 🙂',rkAlready:'כבר ברשימת החברים שלך',rkMax:'אפשר עד 50 חברים',rkSignIn:'צריך להתחבר כדי להוסיף חברים',rkOffT:'הדירוג החי זמין למחוברים',rkOff:'התחבר עם Google, Apple או מייל כדי להתחרות בשחקנים אמיתיים ולהוסיף חברים.',rkHow:'מדורגים לפי נקודות הפנסים של השבוע',rkEmpty:'עוד אין שחקנים השבוע. היה הראשון!',rkNoFriends:'הוסף חברים לפי הכינוי שלהם',you:'אתה',lvlShort:'רמה {0}',loading:'טוען...',nEnT:'האנרגיה מלאה ⚡',nEnB:'המחוללים מחכים לך. בוא למזג!',nGiftT:'המתנה היומית מחכה 🎁',nGiftB:'היכנס לקבל את המתנה של היום',nEvB:'נשאר יום אחרון לפסטיבל הפנסים! 🏮',needTool:'צריך {0} מהלוח. צור אותו במיזוגים',prodHint:'לחץ על "צור" כדי להוציא פריט חדש',tapItem:'הקש על פריט כדי לראות מה הוא',tapGen:'מחוללים עם ⚡ מייצרים פריטים חדשים',genDesc:'{0}. כל הקשה עולה ⚡1',
  tier:'דרגה {0} מתוך {1}',next:'הבא: {0}',top:'הדרגה הגבוהה ביותר!',sell:'מכור {0}🪙',boardFull:'הלוח מלא. מזג, מכור או אחסן פריטים כדי לפנות מקום',
- waiting:'{0} מחכה לפריטים המסומנים בנקודה ירוקה',lvlUp:'רמה {0}!',lvlUpTxt:'קיבלת 💎{0}, ⚡40 וחבילת קלפים 🎴',newGenT:'נפתח מחולל חדש: {0}!',maxLvl:'הגעת לרמה המקסימלית!',
+ waiting:'{0} מחכה לפריטים המסומנים בנקודה ירוקה',lvlUp:'רמה {0}!',lvlUpTxt:'קיבלת 💎{0} ו ⚡40.',newGenT:'נפתח מחולל חדש: {0}!',maxLvl:'הגעת לרמה המקסימלית!',
  noE:'נגמרה האנרגיה',noETxt:'האנרגיה מתמלאת לבד, יחידה כל 90 שניות. רוצה להמשיך לשחק עכשיו?',adE:'צפה בפרסומת',adEsub:'מקבלים ⚡{0}. נותרו היום {1} מתוך {2}',adNone:'ניצלת את כל הפרסומות להיום',
  gemE:'מילוי ביהלומים',gemEsub:'⚡100 תמורת 💎25',shopE:'חבילות אנרגיה',shopEsub:'הכי משתלם, בחנות',watch:'צפה',refill:'מלא',toShop:'לחנות',close:'סגור',
  noGems:'אין מספיק יהלומים',eFull:'האנרגיה מלאה. זמן לייצר!',legend:'פריט אגדי! קיבלת 💎5',firstMerge:'מעולה! ככה מגיעים לפריטים שהדמויות מבקשות',
@@ -845,7 +865,7 @@ he:{title:'אי הלגונה',board:'לוח',island:'איים',missions:'משי�
  sim:'בגרסת הבדיקה הרכישות והפרסומות מדומות. בגרסה לחנויות יחוברו Google Play, App Store ו-AdMob.',bought:'{0} נוסף לחשבון',
  dailyT:'מתנה יומית',dayN:'יום {0}',tapGift:'הקש על המתנה כדי לפתוח',thanks:'תודה!',yay:'יאללה!',
  album:'אלבום הקלפים',bronze:'חבילת ברונזה',gold:'חבילת זהב',open:'פתח',newC:'חדש!',dupC:'כפול +⭐',
- packIn:'עוד {0} הזמנות לחבילת ברונזה',setDone:'סט הושלם!',setDoneTxt:'השלמת את "{0}". קיבלת 💎50 ו-⚡100',setRew:'💎50 ⚡100',claimed:'הושלם ✓',
+ packIn:'',packHow:'חבילות קלפים מתקבלות רק מהשלמות: מבנה שהושלם, אוסף מיזוגים מלא, האתגר היומי הקשה, ואבני דרך במשימות.',setDone:'סט הושלם!',setDoneTxt:'השלמת את "{0}". קיבלת 💎50 ו-⚡100',setRew:'💎50 ⚡100',claimed:'הושלם ✓',
  vault:'כספת כוכבים',vaultTxt:'כל קלף כפול נותן ⭐. החלף 15⭐ בחבילת זהב',swap:'החלף',packGot:'קיבלת {0}!',coolT:'מגניב!',
  bubT:'בועת בונוס!',bubTxt:'{0} נוסף בתוך בועה. הבועה תתפוצץ בעוד {1} שניות ותיעלם.',pop:'פוצץ ב-💎{0}',skip:'לא תודה',
  t1:'הקש על עץ הקוקוס כדי לייצר לימונים',t2:'גרור לימון על לימון זהה כדי למזג!',t3:'לילי צריכה מיץ. הקש על הכרטיס שלה כדי למסור',
@@ -870,9 +890,9 @@ he:{title:'אי הלגונה',board:'לוח',island:'איים',missions:'משי�
  q_spawn:'ייצר {0} פריטים',q_merge:'בצע {0} מיזוגים',q_deliver:'מסור {0} הזמנות',q_coins:'הרווח {0} מטבעות',q_energy:'השתמש ב-{0} אנרגיה',q_boost:'הקש {0} פעמים עם בוסט',q_make:'צור פריט בדרגה {1}',q_gems:'אסוף {0} אבני חן מהלוח',
  timedWin:'הספקת בזמן! קיבלת תיבת כסף 🎁',music:'מוזיקה',giftL:'מתנה',storeL:'מחסן',piggyL:'קופה',tabMain:'ראשי',tabDaily:'יומי',buildX:'בנה: {0}',goB:'קדימה',openIsl:'פתח את {0}'},
 en:{title:'Lagoon Isle',board:'Board',island:'Islands',missions:'Tasks',cards:'Cards',shop:'Shop',full:'Full',deliver:'Deliver!',
- produce:'Produce',adOnlyLow:'Available when your energy runs low',adWaitS:'You can watch again in {0}s',adSkipped:'The ad closed early, no reward this time',adDouble:'Watch to double the gift',adDoubled:'Gift doubled! 🎉',adFree:'Watch to pop for free',adChest:'Watch for +{0} items',rankL:'Ranks',rankT:'Rankings',rkWeek:'This week',rkFriends:'Friends',rkAddPh:"Friend's nickname",rkAdd:'Add',rkAdded:'Friend added!',rkNotFound:'No player with that nickname',rkSelf:"That's you 🙂",rkAlready:'Already your friend',rkMax:'Up to 50 friends',rkSignIn:'Sign in to add friends',rkOffT:'Live rankings need an account',rkOff:'Sign in with Google, Apple or email to compete with real players and add friends.',rkHow:"Ranked by this week's lantern points",rkEmpty:'No players yet this week. Be the first!',rkNoFriends:'Add friends by their nickname',you:'you',lvlShort:'Level {0}',loading:'Loading...',nEnT:'Energy is full ⚡',nEnB:'Your generators are waiting. Come merge!',nGiftT:'Your daily gift is ready 🎁',nGiftB:'Open the game to collect today\'s gift',nEvB:'Last day of the Lantern Festival! 🏮',needTool:'Needs a {0} from the board. Make it at the Workbench',prodHint:'Tap Produce to make a new item',tapItem:'Tap an item to see what it is',tapGen:'Items with ⚡ are generators that make new items',genDesc:'{0}. Each tap costs ⚡1',
+ produce:'Produce',hqTitle:"⚡ Today's Hard Quest",hqSub:'Very hard, but the reward is worth it! Resets at midnight.',hqGo:"Let's go!",hqDoneT:'Hard Quest complete! 🏆',hq_make:'Create a level {1} item from the {2}',hq_merge:'Make {0} merges today',hq_deliver:'Deliver {0} orders today',hq_energy:'Use {0} energy today',hq_build:'Build or upgrade {0} island steps',q_chain:'Create 2 level {1} items from the {2}',q_who:'Deliver {0} orders for {2}',q_chest:'Open {0} chests on the board',q_build:'Build or upgrade {0} island steps',collT:'Merge Collection',collSub:'Discover every level of every chain. Completing a full chain gives a big reward.',collDone:'Chain complete! 🎉',collLock:'Unlocks at level {0}',adOnlyLow:'Available when your energy runs low',adWaitS:'You can watch again in {0}s',adSkipped:'The ad closed early, no reward this time',adDouble:'Watch to double the gift',adDoubled:'Gift doubled! 🎉',adFree:'Watch to pop for free',adChest:'Watch for +{0} items',rankL:'Ranks',rankT:'Rankings',rkWeek:'This week',rkFriends:'Friends',rkAddPh:"Friend's nickname",rkAdd:'Add',rkAdded:'Friend added!',rkNotFound:'No player with that nickname',rkSelf:"That's you 🙂",rkAlready:'Already your friend',rkMax:'Up to 50 friends',rkSignIn:'Sign in to add friends',rkOffT:'Live rankings need an account',rkOff:'Sign in with Google, Apple or email to compete with real players and add friends.',rkHow:"Ranked by this week's lantern points",rkEmpty:'No players yet this week. Be the first!',rkNoFriends:'Add friends by their nickname',you:'you',lvlShort:'Level {0}',loading:'Loading...',nEnT:'Energy is full ⚡',nEnB:'Your generators are waiting. Come merge!',nGiftT:'Your daily gift is ready 🎁',nGiftB:'Open the game to collect today\'s gift',nEvB:'Last day of the Lantern Festival! 🏮',needTool:'Needs a {0} from the board. Make it by merging',prodHint:'Tap Produce to make a new item',tapItem:'Tap an item to see what it is',tapGen:'Items with ⚡ are generators that make new items',genDesc:'{0}. Each tap costs ⚡1',
  tier:'Level {0} of {1}',next:'Next: {0}',top:'Highest level!',sell:'Sell {0}🪙',boardFull:'Board is full. Merge, sell or store items to make room',
- waiting:'{0} is waiting for the items marked with a green dot',lvlUp:'Level {0}!',lvlUpTxt:'You got 💎{0}, ⚡40 and a card pack 🎴',newGenT:'New generator unlocked: {0}!',maxLvl:'You reached the max level!',
+ waiting:'{0} is waiting for the items marked with a green dot',lvlUp:'Level {0}!',lvlUpTxt:'You got 💎{0} and ⚡40.',newGenT:'New generator unlocked: {0}!',maxLvl:'You reached the max level!',
  noE:'Out of energy',noETxt:'Energy refills on its own, one every 90 seconds. Want to keep playing now?',adE:'Watch an ad',adEsub:'Get ⚡{0}. {1} of {2} left today',adNone:'You used all ads for today',
  gemE:'Refill with gems',gemEsub:'⚡100 for 💎25',shopE:'Energy packs',shopEsub:'Best value, in the shop',watch:'Watch',refill:'Refill',toShop:'Shop',close:'Close',
  noGems:'Not enough gems',eFull:'Energy is full. Time to create!',legend:'Legendary item! You got 💎5',firstMerge:'Great! That is how you reach the items characters ask for',
@@ -884,7 +904,7 @@ en:{title:'Lagoon Isle',board:'Board',island:'Islands',missions:'Tasks',cards:'C
  sim:'Purchases and ads are simulated in this test build. The store version will connect Google Play, App Store and AdMob.',bought:'{0} added to your account',
  dailyT:'Daily gift',dayN:'Day {0}',tapGift:'Tap the gift to open it',thanks:'Thanks!',yay:'Awesome!',
  album:'Card Album',bronze:'Bronze Pack',gold:'Gold Pack',open:'Open',newC:'New!',dupC:'Dupe +⭐',
- packIn:'{0} more orders for a bronze pack',setDone:'Set complete!',setDoneTxt:'You completed "{0}". You got 💎50 and ⚡100',setRew:'💎50 ⚡100',claimed:'Complete ✓',
+ packIn:'',packHow:'Card packs come only from completions: a finished building, a full merge collection, the hard daily quest and mission milestones.',setDone:'Set complete!',setDoneTxt:'You completed "{0}". You got 💎50 and ⚡100',setRew:'💎50 ⚡100',claimed:'Complete ✓',
  vault:'Star Vault',vaultTxt:'Every duplicate card gives ⭐. Trade 15⭐ for a gold pack',swap:'Trade',packGot:'You got a {0}!',coolT:'Cool!',
  bubT:'Bonus bubble!',bubTxt:'An extra {0} appeared in a bubble. It pops and disappears in {1} seconds.',pop:'Pop for 💎{0}',skip:'No thanks',
  t1:'Tap the coconut palm to make lemons',t2:'Drag a lemon onto a matching lemon to merge!',t3:'Lili needs juice. Tap her card to deliver',
@@ -910,16 +930,16 @@ en:{title:'Lagoon Isle',board:'Board',island:'Islands',missions:'Tasks',cards:'C
  timedWin:'Just in time! You got a silver chest 🎁',music:'Music',giftL:'Gift',storeL:'Storage',piggyL:'Piggy',tabMain:'Main',tabDaily:'Daily',buildX:'Build the {0}',goB:'Go',openIsl:'Open {0}'}
 };
 const CH={
-  drink:{gn:{he:'עץ קוקוס',en:'Coconut Palm'},gd:{he:'מייצר משקאות ומתוקים',en:'Makes drinks and sweets'},max:7,c1:'#FFE7A0',
-    nm:{he:['לימון','מיץ טרי','שייק','קוקטייל','גלידה','עוגת חוף','בקבוק חגיגה'],en:['Lemon','Fresh Juice','Smoothie','Cocktail','Sundae','Beach Cake','Party Bottle']}},
-  beach:{gn:{he:'דלי החוף',en:'Beach Bucket'},gd:{he:'מייצר אוצרות ים',en:'Makes sea treasures'},max:7,c1:'#BDF5EC',
-    nm:{he:['צדף','סרטן','דג טרופי','אלמוג','צדפת פנינה','קלשון','כתר'],en:['Shell','Crab','Tropical Fish','Coral','Pearl Oyster','Trident','Crown']}},
-  trip:{gn:{he:'בוטיק החוף',en:'Beach Boutique'},gd:{he:'מייצר ציוד לחופשה',en:'Makes vacation gear'},max:7,c1:'#FFD3CA',unlock:3,
-    nm:{he:['כפכף','משקפי שמש','כובע שמש','שמלת קיץ','תיק גב','מזוודה','ספינת שייט'],en:['Flip-flop','Sunglasses','Sun Hat','Summer Dress','Backpack','Suitcase','Cruise Ship']}},
-  garden:{gn:{he:'סל הגינה',en:'Garden Basket'},gd:{he:'מגדל פרחים לגינות האי',en:'Grows flowers for island gardens'},max:7,c1:'#D9F5C2',unlock:8,
-    nm:{he:['נבט','צבעוני','חמנייה','זר פרחים','עציץ','עץ צל','בית גינה'],en:['Sprout','Tulip','Sunflower','Bouquet','Potted Plant','Shade Tree','Garden House']}},
-  tools:{gn:{he:'שולחן העבודה',en:'Workbench'},gd:{he:'מייצר כלים לשדרוג מבנים',en:'Makes tools for building upgrades'},max:7,c1:'#FFE3C2',unlock:5,
-    nm:{he:['קופסת מסמרים','פטיש','מפתח ברגים','מסור','דלי צבע','ארגז כלים','ארגז כלים זהוב'],en:['Box of Nails','Hammer','Wrench','Saw','Paint Bucket','Toolbox','Golden Toolbox']}},
+  drink:{gn:{he:'עץ קוקוס',en:'Coconut Palm'},gd:{he:'מייצר משקאות ומתוקים',en:'Makes drinks and sweets'},max:12,c1:'#FFE7A0',
+    nm:{he:['לימון','מיץ טרי','שייק','קוקטייל','גלידה','עוגת חוף','בקבוק חגיגה','מגש פירות','עגלת מיצים','משאית גלידה','בר טיקי','מזנון החוף הגדול'],en:['Lemon','Fresh Juice','Smoothie','Cocktail','Sundae','Beach Cake','Party Bottle','Fruit Platter','Juice Cart','Ice Cream Truck','Tiki Bar','Grand Beach Buffet']}},
+  beach:{gn:{he:'דלי החוף',en:'Beach Bucket'},gd:{he:'מייצר אוצרות ים',en:'Makes sea treasures'},max:12,c1:'#BDF5EC',
+    nm:{he:['צדף','סרטן','דג טרופי','אלמוג','צדפת פנינה','קלשון','כתר','סוסון ים זהוב','פסל צב ים','ספינה טבועה','טירת אלמוגים','כס פוסידון'],en:['Shell','Crab','Tropical Fish','Coral','Pearl Oyster','Trident','Crown','Golden Seahorse','Sea Turtle Statue','Sunken Ship','Coral Castle',"Poseidon's Throne"]}},
+  trip:{gn:{he:'בוטיק החוף',en:'Beach Boutique'},gd:{he:'מייצר ציוד לחופשה',en:'Makes vacation gear'},max:12,c1:'#FFD3CA',unlock:3,
+    nm:{he:['כפכף','משקפי שמש','כובע שמש','שמלת קיץ','תיק גב','מזוודה','ספינת שייט','כדור פורח','מטוס ים','יאכטת יוקרה','ספינת אוויר','מטוס זהב'],en:['Flip-flop','Sunglasses','Sun Hat','Summer Dress','Backpack','Suitcase','Cruise Ship','Hot Air Balloon','Seaplane','Luxury Yacht','Airship','Golden Jet']}},
+  garden:{gn:{he:'סל הגינה',en:'Garden Basket'},gd:{he:'מגדל פרחים לגינות האי',en:'Grows flowers for island gardens'},max:12,c1:'#D9F5C2',unlock:8,
+    nm:{he:['נבט','צבעוני','חמנייה','זר פרחים','עציץ','עץ צל','בית גינה','חממה','מזרקת פרחים','ביתן ורדים','כיפה בוטנית','גן עדן'],en:['Sprout','Tulip','Sunflower','Bouquet','Potted Plant','Shade Tree','Garden House','Greenhouse','Flower Fountain','Rose Gazebo','Botanical Dome','Paradise Garden']}},
+  tools:{gn:{he:'שולחן העבודה',en:'Workbench'},gd:{he:'מייצר כלים לשדרוג מבנים',en:'Makes tools for building upgrades'},max:12,c1:'#FFE3C2',unlock:5,
+    nm:{he:['קופסת מסמרים','פטיש','מפתח ברגים','מסור','דלי צבע','ארגז כלים','ארגז כלים זהוב','שולחן נגרות','מערבל בטון','מנוף','דחפור','מחפר זהב'],en:['Box of Nails','Hammer','Wrench','Saw','Paint Bucket','Toolbox','Golden Toolbox','Carpentry Bench','Cement Mixer','Crane','Bulldozer','Golden Excavator']}},
   lantern:{gn:{he:'דוכן הפנסים',en:'Lantern Stand'},gd:{he:'אירוע: מייצר פנסים לפסטיבל',en:'Event: makes festival lanterns'},max:7,c1:'#FFD9A8',unlock:4,ev:1,
     nm:{he:['נר','פנס נייר','זוג פנסים','שרשרת פנסים','פנס מעוטר','פנס מעופף','מגדל פנסים'],en:['Candle','Paper Lantern','Lantern Pair','Lantern String','Ornate Lantern','Sky Lantern','Lantern Tower']}},
   gem:{max:3,vals:[1,4,15],nm:{he:['אבן חן','טבעת אבן חן','כדור בדולח'],en:['Gemstone','Gem Ring','Crystal Orb']}}
@@ -974,10 +994,8 @@ const CONFIG={
      Change rewards and daily caps here, or remotely in Firestore doc config/ads (same shape). */
   ADS:{dailyMax:12,cooldownSec:20,
     energy:{max:5,reward:25,onlyBelow:10},   /* only offered when energy is below this */
-    gems:{max:3,reward:2},                   /* free gems in the shop */
-    gift:{max:1},                            /* double the daily gift */
-    bubble:{max:3},                          /* pop a bubble for free */
-    chest:{max:2,bonus:3}},                  /* +3 extra items from a board chest */
+    /* the placements below are switched off (max:0): ads are only for energy */
+    gems:{max:0,reward:2},gift:{max:0},bubble:{max:0},chest:{max:0,bonus:3}},
   PRODUCTS:{starter:'starter_pack',g80:'gems_80',g500:'gems_500',g1200:'gems_1200',e300:'energy_300',e1000:'energy_1000',piggy:'piggy_bank'}
 };
 const Native={on:false,plat:'web',P:null,ads:null,prices:{},
@@ -1073,8 +1091,8 @@ function newOrder(slot,easy){
   if(!newOrder.tmp){newOrder.tmp=[];setTimeout(()=>{newOrder.tmp=null},0)}
   const used=[...S.orders.filter((o,i)=>o&&i!==slot).map(o=>o.who),...newOrder.tmp],pool=['lili','mo','noa','kai'].filter(x=>!used.includes(x)&&!(slot>0&&x==='lili'&&easy));
   const who=easy&&slot===0?'lili':pool[Math.floor(Math.random()*pool.length)]||'kai',cs=chainsOpen();newOrder.tmp.push(who);
-  const n=(!easy&&S.lvl>=2&&Math.random()<.5)?2:1,maxL=Math.min(6,2+Math.floor(S.lvl/2)),req=[];
-  for(let k=0;k<n;k++){const c=easy?(slot===0?'drink':'beach'):cs[Math.floor(Math.random()*cs.length)];const l=easy?2:Math.min(maxL,2+Math.floor(Math.pow(Math.random(),1.4)*(maxL-1)));req.push({c,l})}
+  const n=(!easy&&S.lvl>=2&&Math.random()<(S.lvl<6?.35:.55))?2:1,maxL=S.lvl<4?3+Math.floor(S.lvl/2):Math.min(10,3+Math.floor(S.lvl/3)+S.island),req=[];
+  for(let k=0;k<n;k++){const c=easy?(slot===0?'drink':'beach'):cs[Math.floor(Math.random()*cs.length)];const l=easy?2:Math.min(maxL,2+Math.floor(Math.pow(Math.random(),S.lvl<6?1.6:1.15)*(maxL-1)));req.push({c,l})}
   const mult=1+S.island*.3;
   const coins=Math.round(req.reduce((s,r)=>s+6*Math.pow(2,r.l-1),0)*mult),xp=req.reduce((s,r)=>s+r.l*3,0);
   const o={who,req,coins,xp,id:++S.seq};
@@ -1096,9 +1114,14 @@ function newMission(){
   return {t:tp,g,p,c:0,rw};
 }
 while(S.ms.length<3)S.ms.push(newMission());
-function mEv(tp,n=1,lv=0){
-  const dc=dcState();let ch=false;
-  dc.q.forEach(m=>{if(m.t!==tp||m.c>=m.g)return;if(tp==='make'){if(lv>=m.p){m.c=1;ch=true}}else{m.c=Math.min(m.g,m.c+n);ch=true}if(m.c>=m.g)toast(t('dcDone'))});
+function mEv(tp,n=1,lv=0,x=''){
+  const dc=dcState();let ch=false;hqEv(tp,n,lv,x);
+  dc.q.forEach(m=>{if(m.c>=m.g)return;
+    if(tp==='make'&&m.t==='make'){if(lv>=m.p){m.c=1;ch=true}}
+    else if(tp==='make'&&m.t==='chain'){if(x===m.x&&lv>=m.p){m.c=Math.min(m.g,m.c+1);ch=true}}
+    else if(tp==='deliver'&&m.t==='who'){if(x===m.x){m.c=Math.min(m.g,m.c+1);ch=true}}
+    else if(m.t===tp&&tp!=='make'){m.c=Math.min(m.g,m.c+n);ch=true}
+    else return;if(m.c>=m.g)toast(t('dcDone'))});
   if(ch){renderBadges();if(current()==='scrMissions')renderMissions()}
 }
 const rwTxt=r=>r.k==='coins'?'🪙'+r.v:r.k==='gems'?'💎'+r.v:r.k==='energy'?'⚡'+r.v:'🎴 '+t('bronze');
@@ -1158,11 +1181,11 @@ function renderHUD(){
   renderBadges();renderEvBtn();
   {const be=document.getElementById('board');if(be)be.classList.toggle('noen',S.energy<=0)}
 }
-function canBuild(){if(islDone()||S.coins<nextCost())return false;const i=pickSel(),r=toolReq(S.island,S.bs[i]);return !r||toolAt(r)>=0}
+function canBuild(){if(islDone()||S.coins<nextCost())return false;const i=pickSel();return !!reqsAt(bReqs(S.island,S.bs[i]))}
 function renderBadges(){
   $('islBadge').hidden=!(canBuild()||(islDone()&&S.island<ISL.length-1));
-  const p=S.packs.b+S.packs.g;$('cardBadge').hidden=!p;$('cardBadge').textContent=p;
-  const dc=dcState(),claim=dc.q.filter(x=>x.c>=x.g&&!x.cl).length+[2,4,6].filter((m,i)=>dc.pts>=m&&!dc.mc[i]).length;
+  const p=S.packs.b+S.packs.g+(collReady()?1:0);$('cardBadge').hidden=!p;$('cardBadge').textContent=p;
+  const dc=dcState(),hq=S.tut>=3?hqState():{c:0,g:1},claim=dc.q.filter(x=>x.c>=x.g&&!x.cl).length+[2,4,6].filter((m,i)=>dc.pts>=m&&!dc.mc[i]).length+(hq.c>=hq.g&&!hq.cl?1:0);
   $('dcBadge').hidden=!claim;$('dcBadge').textContent=claim;$('dcChip').textContent=dc.pts+'/6';
   $('giftBadge').hidden=!(S.tut>=3&&S.daily!==today());
   $('invChip').textContent=S.inv.length+'/'+S.invSlots;$('invChip').classList.toggle('over',S.inv.length>S.invSlots);
@@ -1219,12 +1242,12 @@ function setEnergy(v){const was=S.energy;S.energy=Math.max(0,v);if(was>=E_MAX&&S
 function addXP(x){if(S.lvl>=MAXLV)return;S.xp+=x;while(S.lvl<MAXLV&&S.xp>=need(S.lvl)){S.xp-=need(S.lvl);S.lvl++;levelUp()}if(S.lvl>=MAXLV)S.xp=0}
 function placeGen(c){if(S.board.some(v=>v&&v.t==='g'&&v.c===c))return false;const j=nearestEmpty(N-3);if(j<0){S.inv.push({t:'g',c});return true}S.board[j]={t:'g',c};return true}
 function levelUp(){
-  const big=S.lvl%5===0,g=big?30:10;S.gems+=g;S.energy+=40;S.packs.b++;if(big)S.packs.g++;
+  const big=S.lvl%5===0,g=big?20:5;S.gems+=g;S.energy+=40;if(big)S.packs.b++;
   let extra='';Object.keys(CH).forEach(c=>{if(CH[c].unlock===S.lvl&&placeGen(c))extra=' '+t('newGenT',loc(CH[c].gn))});
   if(S.lvl===BOOST2)extra+=' '+t('boostUnlock','x2');if(S.lvl===BOOST4)extra+=' '+t('boostUnlock','x4');
   placeChest(big?3:2);
   sfx('level');buzz([30,40,30]);
-  setTimeout(()=>modal({e:'pop_star',glow:1,title:t('lvlUp',S.lvl),text:t('lvlUpTxt',g)+(big?' + '+t('gold'):'')+' '+t('chestOnBoard')+extra+(S.lvl>=MAXLV?' '+t('maxLvl'):''),btns:[{t:t('yay'),cls:'gold'}]}),350);
+  setTimeout(()=>modal({e:'pop_star',glow:1,title:t('lvlUp',S.lvl),text:t('lvlUpTxt',g)+(big?' + 🎴 '+t('bronze'):'')+' '+t('chestOnBoard')+extra+(S.lvl>=MAXLV?' '+t('maxLvl'):''),btns:[{t:t('yay'),cls:'gold'}]}),350);
 }
 /* =================== rewarded ads (opt-in only) =================== */
 const ADK=['energy','gems','gift','bubble','chest'];
@@ -1265,7 +1288,7 @@ function spawn(i){
   const j=nearestEmpty(i);if(j<0){toast(t('boardFull'));return}
   setEnergy(S.energy-cost);S.undo=null;
   const gemDrop=S.tut>=3&&Math.random()<.03,bl=S.boost===4?3:S.boost===2?2:1;
-  const lv=S.tut<3?1:Math.min(CH[g.c].max-1,bl+(Math.random()<.12?1:0));
+  const lv=S.tut<3?1:Math.min(CH[g.c].max-1,bl+(Math.random()<(S.lvl<5?.25:S.lvl<12?.12:.07)?1:0));
   S.board[j]=gemDrop?{t:'i',c:'gem',l:1}:{t:'i',c:g.c,l:lv};freshCell=j;
   if(S.tut===0&&(countBoard()['drink1']||0)>=2)S.tut=1;
   mEv('spawn');mEv('energy',cost);if(S.boost>1)mEv('boost');sfx(S.boost>1?'spawnB':'spawn');buzz(10);refresh();
@@ -1292,7 +1315,7 @@ function drop(i,j){
   if(!a||a.t==='b'||(b&&b.t==='b')){renderBoard();return}
   if(b&&a.t==='i'&&b.t==='i'&&a.c===b.c&&a.l===b.l&&a.l<CH[a.c].max){
     const nl=a.l+1,mx=CH[a.c].max;S.board[j]={t:'i',c:a.c,l:nl};S.board[i]=null;freshCell=j;sel=j;S.undo=null;setTimeout(()=>discover(a.c,nl,j),40);
-    const first=!S.merged;S.merged=true;addXP(1);mEv('merge');mEv('make',1,nl);if(a.c==='lantern'){const gp=[0,0,1,2,4,8,16,32][nl];evState().p+=gp;setTimeout(()=>{const [ex,ey]=cellCenter(j);floatTxt(ex,ey,'+'+gp+' 🏮');renderEvBtn()},60)}
+    const first=!S.merged;S.merged=true;addXP(1);mEv('merge');mEv('make',1,nl,a.c);if(a.c==='lantern'){const gp=[0,0,1,2,4,8,16,32][nl];evState().p+=gp;setTimeout(()=>{const [ex,ey]=cellCenter(j);floatTxt(ex,ey,'+'+gp+' 🏮');renderEvBtn()},60)}
     if(S.tut===1&&a.c==='drink'&&nl===2)S.tut=2;
     if(nl===mx&&a.c!=='gem'){S.gems+=5;setTimeout(()=>toast(t('legend')),200)}
     let bubAt=-1;
@@ -1309,12 +1332,12 @@ function drop(i,j){
 function deliver(s){
   const o=S.orders[s];if(!o||o.gone||!check(o,countBoard()).every(Boolean))return;o.gone=1;S.undo=null;
   o.req.forEach(r=>{for(let j=N-1;j>=0;j--){const v=S.board[j];if(v&&v.t==='i'&&v.c===r.c&&v.l===r.l){S.board[j]=null;if(sel===j)sel=-1;break}}});
-  S.coins+=o.coins;S.done++;S.piggy=Math.min(PIG_MAX,S.piggy+3);mEv('deliver');mEv('coins',o.coins);
+  S.coins+=o.coins;S.done++;S.piggy=Math.min(PIG_MAX,S.piggy+3);mEv('deliver',1,0,o.who);mEv('coins',o.coins);
   const card=$('orders').children[s],r=card.getBoundingClientRect();
   floatTxt(r.left+r.width/2,r.top+10,'+'+o.coins+'🪙');flyTo(r.left+r.width/2,r.top+r.height/2,'hCo','coin',6);burst(r.left+r.width/2,r.top+r.height/2,['🪙','✨','⭐'],12);
   sfx('deliver');buzz(25);card.classList.add('out');
   const timedWin=o.exp&&o.exp>Date.now();
-  let packMsg=false;if(S.done%3===0){S.packs.b++;packMsg=true}
+  let packMsg=false;
   const wasTut=S.tut===2;if(wasTut){S.tut=3;setTimeout(()=>Notif.ask(),4000)}
   setTimeout(()=>{S.orders[s]=newOrder(s);addXP(o.xp);
     if(timedWin){placeChest(2);toast(t('timedWin'))}else if(S.tut>=3&&Math.random()<.12)placeChest(1);
@@ -1395,7 +1418,7 @@ const IPLOTS={4:[[51,74,30],[24,52,29],[35,23,28],[52,38,29],[77,55,29],[77,28,2
 const PLOTS=[[22,52,33],[37,70,34],[62,80,34],[81,60,34],[69,43,33],[50,30,38]];
 const stepsDone=()=>S.bs.reduce((a,b)=>a+b,0);
 const islDone=()=>stepsDone()>=STEPS;
-const stepCost=(k,n)=>{const g=k*NB+n/STG;return Math.max(20,Math.round((60+14*g*g)/STG/10)*10)};
+const stepCost=(k,n)=>{const g=k*NB+n/STG;return Math.max(40,Math.round((150+30*g*g)/STG/10)*10)};
 const nextCost=()=>stepCost(S.island,stepsDone());
 const bName=(k,i)=>{const b=ISL[k].b[i];return S.lang==='he'?b[0]:b[1]};
 function bArt(k,i,s){
@@ -1407,8 +1430,17 @@ function bArt(k,i,s){
 const bThumb=(k,i,s)=>{const key=`b${k}_${i}_t${s}`;return ART_KEYS.has(key)?`<img class="ar" src="art/${key}.webp" alt="" draggable="false">`:bArt(k,i,s)};
 /* upgrades to stage 2 and 3 also need a tool from the board (once the Workbench is unlocked) */
 const TOOL_LV=5;
-function toolReq(k,s){if(S.lvl<TOOL_LV||s<1)return null;return {c:'tools',l:s===1?Math.min(6,2+Math.floor(k/2)):Math.min(7,3+k)}}
-function toolAt(r){if(!r)return -2;for(let j=0;j<N;j++){const v=S.board[j];if(v&&v.t==='i'&&v.c===r.c&&v.l>=r.l)return j}return -1}
+/* every building step needs items from the board: tools from the Workbench, and the final stage also a themed item */
+const ISLC=['drink','beach','garden','trip','drink'];
+function bReqs(k,s){const out=[];
+  if(S.lvl>=TOOL_LV)out.push({c:'tools',l:Math.min(10,2+s+k)});
+  else if(s>=1)out.push({c:ISLC[k],l:Math.min(6,2+s)});
+  if(s===2){const c=chainsOpen().includes(ISLC[k])?ISLC[k]:'drink';out.push({c,l:Math.min(10,5+k)})}
+  return out}
+function toolReq(k,s){return bReqs(k,s)[0]||null}
+function reqAt(r,skip){for(let j=0;j<N;j++){const v=S.board[j];if(v&&v.t==='i'&&v.c===r.c&&v.l>=r.l&&!(skip&&skip.includes(j)))return j}return -1}
+function reqsAt(list){const used=[];for(const r of list){const j=reqAt(r,used);if(j<0)return null;used.push(j)}return used}
+function toolAt(r){return r?reqAt(r):-2}
 const stageOf=(k,i)=>k<S.island?STG:k>S.island?0:S.bs[i];
 let selB=null;
 function pickSel(){if(selB!=null&&S.bs[selB]<STG)return selB;let m=0;S.bs.forEach((v,i)=>{if(v<S.bs[m])m=i});return S.bs[m]<STG?m:0}
@@ -1508,8 +1540,8 @@ function renderIsland(justBuilt){
   else{
     const d=stepsDone();
     h+=`<div class="card"><div class="row"><div class="grow ttl">${loc(I.n)}</div><span class="muted">${Math.round(100*d/STEPS)}%</span></div><div class="prog"><i style="width:${100*d/STEPS}%"></i></div>`;
-    if(!islDone()){const i=selB,s=S.bs[i],cost=nextCost(),tr=toolReq(k,s),tj=toolAt(tr),hasT=!tr||tj>=0,can=S.coins>=cost&&hasT;
-      h+=`<div class="bsel"><div class="bprev">${bThumb(k,i,s+1)}</div><div class="grow"><div class="ttl">${bName(k,i)}</div><div class="stg">${[1,2,3].map(n=>`<i class="${n<=s?'on':n===s+1?'nx':''}"></i>`).join('')}<span class="muted">${s?t('stageN',s+1,STG):t('newB')}</span></div>${tr?`<span class="treq${hasT?' ok':''}">${A('tools'+tr.l)}<b>${nm('tools',tr.l)}</b>${hasT?'✓':`<button class="btn sm" id="bTool">${t('goB')}</button>`}</span>`:''}<span class="muted">${can?t('ready'):S.coins<cost?t('missing',fmtN(cost-S.coins)):t('needTool',nm('tools',tr.l))}</span></div>
+    if(!islDone()){const i=selB,s=S.bs[i],cost=nextCost(),rq=bReqs(k,s),hasT=!!reqsAt(rq),can=S.coins>=cost&&hasT,tr=rq.find(r=>reqAt(r)<0)||rq[0];
+      h+=`<div class="bsel"><div class="bprev">${bThumb(k,i,s+1)}</div><div class="grow"><div class="ttl">${bName(k,i)}</div><div class="stg">${[1,2,3].map(n=>`<i class="${n<=s?'on':n===s+1?'nx':''}"></i>`).join('')}<span class="muted">${s?t('stageN',s+1,STG):t('newB')}</span></div>${rq.map(r=>{const okr=reqAt(r)>=0;return `<span class="treq${okr?' ok':''}">${A(r.c+r.l)}<b>${nm(r.c,r.l)}</b>${okr?'✓':`<button class="btn sm bTool">${t('goB')}</button>`}</span>`}).join('')}<span class="muted">${can?t('ready'):S.coins<cost?t('missing',fmtN(cost-S.coins)):t('needTool',nm(tr.c,tr.l))}</span></div>
         <button class="btn${can?' gold':''}" id="bBuild" ${can?'':'disabled'}><span class="bl">${s?t('upgrade'):t('buildB')}</span>${ic('coin')} ${fmtN(cost)}</button></div>`}
     else if(k<ISL.length-1)h+=`<div class="row" style="margin-top:12px"><div class="thumb">${A('island')}</div><div class="grow ttl">${loc(ISL[k+1].n)}</div><button class="btn blue" id="bSail">${t('sail')}</button></div>`;
     else h+=`<p>${t('allDone')}</p>`;
@@ -1518,13 +1550,13 @@ function renderIsland(justBuilt){
   $('island').innerHTML=h;
   $('island').querySelectorAll('.chip[data-j]').forEach(c=>c.onclick=()=>{viewIsl=+c.dataset.j;renderIsland()});$('bMap').onclick=()=>{mapView=true;sfx('open');renderIsland()};
   if(k===S.island)$('island').querySelectorAll('.plot2').forEach(p=>p.onclick=()=>{const i=+p.dataset.i;if(S.bs[i]>=STG){toast('✓ '+bName(k,i));return}
-    if(selB===i){const bb=$('bBuild');if(bb&&!bb.disabled)bb.click();else{const r=toolReq(S.island,S.bs[i]);toast(r&&toolAt(r)<0&&S.coins>=nextCost()?t('needTool',nm('tools',r.l)):t('missing',fmtN(Math.max(0,nextCost()-S.coins))))}return}
+    if(selB===i){const bb=$('bBuild');if(bb&&!bb.disabled)bb.click();else{const r=toolReq(S.island,S.bs[i]);toast(r&&toolAt(r)<0&&S.coins>=nextCost()?t('needTool',nm(r.c,r.l)):t('missing',fmtN(Math.max(0,nextCost()-S.coins))))}return}
     selB=i;sfx&&sfx('tap');renderIsland()});
   if(justBuilt!=null){const g=$('island').querySelector(`.plot2[data-i="${justBuilt}"]`);g&&g.classList.add('just')}
-  const bt=$('bTool');if(bt)bt.onclick=()=>{go('Board');toast(t('needTool',nm('tools',toolReq(S.island,S.bs[selB]).l)))};
+  $('island').querySelectorAll('.bTool').forEach(bt=>bt.onclick=()=>{const r=bReqs(S.island,S.bs[selB]).find(x=>reqAt(x)<0);go('Board');if(r)toast(t('needTool',nm(r.c,r.l)))});
   const b=$('bBuild');if(b)b.onclick=()=>{
     const cost=nextCost();if(S.coins<cost)return;
-    {const r=toolReq(S.island,S.bs[selB]),j=toolAt(r);if(r&&j<0)return;if(r){S.board[j]=null;if(sel===j)sel=-1}}
+    {const used=reqsAt(bReqs(S.island,S.bs[selB]));if(!used)return;used.forEach(j=>{S.board[j]=null;if(sel===j)sel=-1})}
     const i=selB,n=stepsDone(),g=S.island*NB+n/STG;S.coins-=cost;S.bs[i]++;const fin=S.bs[i]>=STG;
     S.gems+=fin?6:2;if(fin)S.packs.g++;S.piggy=Math.min(PIG_MAX,S.piggy+3);addXP(Math.round((25+g*5)/STG));mEv('build');
     chime(4,500);buzz([30,30,60]);renderIsland(i);renderHUD();save();
@@ -1551,12 +1583,13 @@ function renderMainTasks(){
 function renderMissions(){
   if(msTab==='main'){renderMainTasks();return}
   const dc=dcState(),MS=[2,4,6];
-  let h=`<h2>${t('missions')}</h2><div class="tabs"><button data-tab="main">${t('tabMain')}</button><button class="on" data-tab="daily">${t('tabDaily')}</button></div><div class="card"><div class="dchead"><div class="thumb">${A('clip')}</div><div class="grow"><div class="ttl">${t('dcSub')}</div><span class="muted">${t('dcReset',fmt(untilMidnight()))}</span></div></div>
+  let h=`<h2>${t('missions')}</h2><div class="tabs"><button data-tab="main">${t('tabMain')}</button><button class="on" data-tab="daily">${t('tabDaily')}</button></div>${S.tut>=3?hqCard():''}<div class="card"><div class="dchead"><div class="thumb">${A('clip')}</div><div class="grow"><div class="ttl">${t('dcSub')}</div><span class="muted">${t('dcReset',fmt(untilMidnight()))}</span></div></div>
    <div class="mile"><div class="track"><i style="width:${Math.min(100,100*dc.pts/6)}%"></i></div>${MS.map((m,i)=>`<button class="mc${dc.mc[i]?' done':dc.pts>=m?' ready':''}" data-m="${i}"><span class="cb">${A('mile'+(i+1))}</span><span>${m}</span></button>`).join('')}</div></div>`;
   dc.q.forEach((m,k)=>{const done=m.c>=m.g;
-    h+=`<div class="card mis"><div class="thumb">${A(DCI[m.t])}</div><div class="grow"><div class="ttl" style="font-size:15px">${t('q_'+m.t,fmtN(m.g),m.p)}</div><div class="prog"><i style="width:${100*Math.min(1,m.c/m.g)}%"></i></div><span class="rchip">${rwHtml(m.rw)}</span> <span class="muted">${fmtN(Math.min(m.c,m.g))}/${fmtN(m.g)}</span></div><button class="btn sm${done&&!m.cl?' gold':''}" data-k="${k}" ${done&&!m.cl?'':'disabled'}>${m.cl?'✓':t('claim')}</button></div>`});
+    h+=`<div class="card mis"><div class="thumb">${m.t==='chain'?A(m.x+m.p):m.t==='who'?avatar(m.x):A(DCI[m.t])}</div><div class="grow"><div class="ttl" style="font-size:15px">${t('q_'+m.t,fmtN(m.g),m.p,m.x?(m.t==='who'?loc(PEOPLE[m.x]):loc(CH[m.x].gn)):'')}</div><div class="prog"><i style="width:${100*Math.min(1,m.c/m.g)}%"></i></div><span class="rchip">${rwHtml(m.rw)}</span> <span class="muted">${fmtN(Math.min(m.c,m.g))}/${fmtN(m.g)}</span></div><button class="btn sm${done&&!m.cl?' gold':''}" data-k="${k}" ${done&&!m.cl?'':'disabled'}>${m.cl?'✓':t('claim')}</button></div>`});
   $('missions').innerHTML=h;
   $('missions').querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{msTab=b.dataset.tab;renderMissions()});
+  {const hb=$('hqB');if(hb)hb.onclick=hqClaim}
   $('missions').querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{const m=dc.q[+b.dataset.k];if(m.c<m.g||m.cl)return;m.cl=1;dc.pts++;giveRw(m.rw);sfx('coin');
     const r=b.getBoundingClientRect();burst(r.left+r.width/2,r.top,['✨','⭐'],10);toast(rwTxt(m.rw));save();renderHUD();renderMissions()});
   $('missions').querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{const i=+b.dataset.m;if(dc.mc[i]||dc.pts<MS[i])return;dc.mc[i]=1;
@@ -1585,17 +1618,35 @@ function openPack(type){
   newSets.forEach(k=>modal({e:'trophy',title:t('setDone'),text:t('setDoneTxt',loc(SETS[k].n)),btns:[{t:t('yay'),cls:'gold'}]}));
   if(current()==='scrCards')setTimeout(renderCards,50);
 }
+let cdTab='cards';
+function collReady(){return COLL.some(c=>{if(S.coll&&S.coll[c])return false;for(let l=1;l<=CH[c].max;l++)if(!(S.disc&&S.disc[c+l]))return false;return true})}
+const COLL=['drink','beach','trip','garden','tools'];
+function collRw(){return {gems:60,energy:150}}
+function renderCollection(){
+  let h=`<h2>${t('album')}</h2><div class="tabs"><button data-ct="cards">${t('cards')}</button><button class="on" data-ct="coll">${t('collT')}</button></div><p class="muted" style="text-align:center;margin:0 0 8px">${t('collSub')}</p>`;
+  if(!S.coll)S.coll={};
+  COLL.forEach(c=>{const mx=CH[c].max,open=!CH[c].unlock||S.lvl>=CH[c].unlock;let have=0;for(let l=1;l<=mx;l++)if(S.disc&&S.disc[c+l])have++;const full=have>=mx,cl=S.coll[c];
+    h+=`<div class="card coll${open?'':' off'}"><div class="setHead"><span class="thumb" style="width:36px;height:36px;padding:3px">${A('g'+c)}</span><span class="ttl">${loc(CH[c].gn)}</span><span class="muted">${have}/${mx}</span><span class="r${cl?' done':''}">${cl?t('claimed'):`${ic('gem')}${collRw().gems} ${ic('bolt')}${collRw().energy} ${ic('pack')}`}</span></div>
+     <div class="cgrid">${Array.from({length:mx},(_,i)=>{const k=c+(i+1),kn=S.disc&&S.disc[k];return `<div class="ci${kn?'':' unk'}">${A(k)}<span>${i+1}</span>${kn?'':'<i>?</i>'}</div>`}).join('')}</div>
+     ${full&&!cl?`<button class="btn gold wide" data-cc="${c}">${t('claim')}</button>`:!open?`<span class="muted">${t('collLock',CH[c].unlock)}</span>`:''}</div>`});
+  $('cardsP').innerHTML=h;
+  $('cardsP').querySelectorAll('[data-ct]').forEach(b=>b.onclick=()=>{cdTab=b.dataset.ct;renderCards()});
+  $('cardsP').querySelectorAll('[data-cc]').forEach(b=>b.onclick=()=>{const c=b.dataset.cc;if(S.coll[c])return;S.coll[c]=1;const r=collRw();S.gems+=r.gems;setEnergy(S.energy+r.energy);S.packs.g++;sfx('level');save();renderCards();renderHUD();
+    modal({e:'g'+c,glow:1,title:t('collDone'),text:`${loc(CH[c].gn)} · 💎${r.gems} ⚡${r.energy} 🎴 ${t('gold')}`,btns:[{t:t('yay'),cls:'gold'}]})});
+}
 function renderCards(){
+  if(cdTab==='coll'){renderCollection();return}
   const left=3-(S.done%3);
-  let h=`<h2>${t('album')}</h2><div class="packRow">
+  let h=`<h2>${t('album')}</h2><div class="tabs"><button class="on" data-ct="cards">${t('cards')}</button><button data-ct="coll">${t('collT')}${collReady()?' ❗':''}</button></div><div class="packRow">
   <div class="packTile b">${S.packs.b?`<span class="cnt">${S.packs.b}</span>`:''}<div class="pk">${A('pack')}</div><div class="n">${t('bronze')}</div><button class="btn" data-o="b" ${S.packs.b?'':'disabled'}>${t('open')}</button></div>
   <div class="packTile g">${S.packs.g?`<span class="cnt">${S.packs.g}</span>`:''}<div class="pk">${A('pack')}</div><div class="n">${t('gold')}</div><button class="btn coral" data-o="g" ${S.packs.g?'':'disabled'}>${t('open')}</button></div></div>
-  <div class="card"><span class="muted">${t('packIn',left)}</span><div class="prog gold"><i style="width:${100*(3-left)/3}%"></i></div>
+  <div class="card"><span class="muted">${t('packHow')}</span>
   <div class="row" style="margin-top:10px"><div class="thumb">${A('star')}</div><div class="grow"><div class="ttl">${t('vault')} · ${S.stars}/15</div><span class="muted">${t('vaultTxt')}</span></div><button class="btn plum sm" id="vSwap" ${S.stars>=15?'':'disabled'}>${t('swap')}</button></div></div>`;
   SETS.forEach((s,k)=>{const have=S.owned.slice(k*6,k*6+6).filter(x=>x>0).length;
     h+=`<div class="card"><div class="setHead"><span class="ttl">${loc(s.n)}</span><span class="muted">${have}/6</span><span class="r${S.setsDone[k]?' done':''}">${S.setsDone[k]?t('claimed'):ic('gem')+' 50 '+ic('bolt')+' 100'}</span></div>
     <div class="cards">${s.c.map((c,j)=>cardHTML(k*6+j,!S.owned[k*6+j])).join('')}</div></div>`});
   $('cardsP').innerHTML=h;
+  $('cardsP').querySelectorAll('[data-ct]').forEach(b=>b.onclick=()=>{cdTab=b.dataset.ct;renderCards()});
   $('cardsP').querySelectorAll('[data-o]').forEach(b=>b.onclick=()=>openPack(b.dataset.o));
   $('vSwap').onclick=()=>{if(S.stars<15)return;S.stars-=15;S.packs.g++;save();renderCards();renderHUD();openPack('g')};
 }
@@ -1633,7 +1684,7 @@ function renderShop(){
   if(!S.offerBought&&S.offerEnd>Date.now())h+=`<div class="card offer"><div class="row"><div class="art">${A('shop_starter')}</div><div class="grow"><span class="timer" id="offT">${fmt(S.offerEnd-Date.now())}</span><div class="big" style="margin-top:6px">${t('starter')}</div><div style="font-weight:800;margin-top:2px">${ic('gem')} 300 ${ic('bolt')} 200 ${ic('coin')} 500</div><span class="muted" style="color:#7A4A00">${t('once')}</span></div></div><button class="btn coral wide" style="margin-top:12px" id="bOffer">${price('starter','₪14.90')}</button></div>`;
   h+=`<div class="sectionT">${t('free')}</div><div class="grid2">
    <div class="pack"><div class="e">${A('gift')}</div><div class="q">${t('daily')}</div><button class="btn ${dAv?'gold':'ghostb'}" id="bD">${dAv?t('collect'):fmt(untilMidnight())}</button></div>
-   <div class="pack"><div class="e">${A('tv')}</div><div class="q">+${ic('gem')} ${CONFIG.ADS.gems.reward} <span class="muted">${gl}/${CONFIG.ADS.gems.max}</span></div><button class="btn blue" id="bAdG" ${gl>0?'':'disabled'}>${t('watch')}</button></div></div>`;
+   ${CONFIG.ADS.gems.max>0?`<div class="pack"><div class="e">${A('tv')}</div><div class="q">+${ic('gem')} ${CONFIG.ADS.gems.reward} <span class="muted">${gl}/${CONFIG.ADS.gems.max}</span></div><button class="btn blue" id="bAdG" ${gl>0?'':'disabled'}>${t('watch')}</button></div>`:''}</div>`;
   h+=`<div class="card piggy"><div class="row"><div class="thumb" style="background:#fff">${A('piggy')}</div><div class="grow"><div class="ttl">${t('piggy')}</div><div class="prog"><i style="width:${100*S.piggy/PIG_MAX}%"></i></div><span class="muted">${ic('gem')} ${S.piggy}/${PIG_MAX} · ${t('piggyMin',PIG_MIN)}</span></div><button class="btn coral sm" id="bPig" ${S.piggy>=PIG_MIN?'':'disabled'}>${price('piggy','₪9.90')}</button></div></div>`;
   h+=`<div class="sectionT">${t('energyPacks')}</div><div class="grid3">
    <div class="pack"><div class="e">${A('shop_e300')}</div><div class="q">${ic('bolt')} 300</div><button class="btn sm" data-e="300" data-p="e300">${price('e300','₪9.90')}</button></div>
@@ -1656,7 +1707,7 @@ function renderShop(){
   $('bE').onclick=()=>spend(25,()=>S.energy+=100);
   $('bC').onclick=()=>spend(40,()=>S.coins+=400);
   $('bD').onclick=openDaily;
-  $('bAdG').onclick=()=>{const G=CONFIG.ADS.gems.reward;showAd('gems',()=>{S.gems+=G;toast('+💎'+G)})};
+  if($('bAdG'))$('bAdG').onclick=()=>{const G=CONFIG.ADS.gems.reward;showAd('gems',()=>{S.gems+=G;toast('+💎'+G)})};
   $('bPig').onclick=()=>{if(S.piggy<PIG_MIN)return;const g=S.piggy;buyReal('💎'+g,'piggy',()=>{S.gems+=g;S.piggy=0})};
 }
 /* =================== settings =================== */
@@ -1695,6 +1746,30 @@ function openTester(){
     $('modal').querySelectorAll('.tgrid [data-k]').forEach(b=>b.onclick=()=>{T[+b.dataset.k][1]();save();refresh();rerenderPanel();toast('✓ '+T[+b.dataset.k][0])})}});
 }
 
+/* =================== hard daily quest (big reward, hard to reach) =================== */
+function hqState(){
+  if(!S.hq||S.hq.d!==today()){const L=S.lvl,cs=chainsOpen(),types=['make','merge','deliver','energy'];if(L>=6)types.push('build');
+    const tp=types[Math.floor(Math.random()*types.length)];let g=1,p=0,x='';
+    if(tp==='make'){x=cs[Math.floor(Math.random()*cs.length)];p=Math.min(11,6+Math.floor(L/5))}
+    if(tp==='merge')g=120+L*6;if(tp==='deliver')g=10+Math.floor(L/3);if(tp==='energy')g=350+L*12;if(tp==='build')g=3;
+    S.hq={d:today(),t:tp,g,p,x,c:0,cl:0,seen:0,rw:{gems:40+L,energy:150}}}
+  return S.hq}
+function hqEv(tp,n,lv,x){if(S.tut<3)return;const q=hqState();if(q.cl||q.c>=q.g)return;
+  if(q.t==='make'){if(tp==='make'&&x===q.x&&lv>=q.p)q.c=1}else if(q.t===tp)q.c=Math.min(q.g,q.c+n);else return;
+  if(q.c>=q.g){setTimeout(()=>{toast(t('hqDoneT'));renderBadges()},300)}}
+function hqText(q){return t('hq_'+q.t,fmtN(q.g),q.p,q.x?loc(CH[q.x].gn):'')}
+function hqArt(q){return q.t==='make'?A(q.x+q.p):A({merge:'q_merge',deliver:'q_deliver',energy:'bolt',build:'q_build'}[q.t])}
+function hqCard(){const q=hqState(),done=q.c>=q.g;
+  return `<div class="card hq${done&&!q.cl?' ready':''}"><div class="hqtag">${t('hqTitle')}</div><div class="row"><div class="thumb">${hqArt(q)}</div><div class="grow"><div class="ttl">${hqText(q)}</div>
+   <div class="prog gold"><i style="width:${100*Math.min(1,q.c/q.g)}%"></i></div><span class="muted">${q.t==='make'?(done?'✓':'0/1'):fmtN(Math.min(q.c,q.g))+'/'+fmtN(q.g)} · ${t('dcReset',fmt(untilMidnight()))}</span></div></div>
+   <div class="hqrw"><span>${ic('gem')} ${q.rw.gems}</span><span>${ic('bolt')} ${q.rw.energy}</span><span>${ic('pack')} ${t('gold')}</span><span>${A('chest3')}</span></div>
+   <button class="btn wide ${done&&!q.cl?'gold':'ghostb'}" id="hqB" ${done&&!q.cl?'':'disabled'}>${q.cl?'✓ '+t('claimed'):t('claim')}</button></div>`}
+function hqClaim(){const q=hqState();if(q.c<q.g||q.cl)return;q.cl=1;S.gems+=q.rw.gems;setEnergy(S.energy+q.rw.energy);S.packs.g++;placeChest(3);sfx('level');save();refresh();rerenderPanel();
+  modal({e:'mile3',glow:1,title:t('hqDoneT'),text:`💎${q.rw.gems} ⚡${q.rw.energy} 🎴 ${t('gold')} + ${t('chestOnBoard')}`,btns:[{t:t('yay'),cls:'gold'}]})}
+function hqIntro(){if(S.tut<3)return;const q=hqState();if(q.seen)return;q.seen=1;save();
+  modal({e:'mile3',glow:1,title:t('hqTitle'),text:hqText(q)+'. '+t('hqSub'),html:`<div class="hqrw" style="justify-content:center"><span>${ic('gem')} ${q.rw.gems}</span><span>${ic('bolt')} ${q.rw.energy}</span><span>${ic('pack')} ${t('gold')}</span><span>${A('chest3')}</span></div>`,
+    btns:[{t:t('hqGo'),cls:'gold'}]})}
+
 /* =================== built-in end-to-end self test (TEST_MODE) =================== */
 const QA={
   inv(){const P=[],bad=m=>P.push(m);
@@ -1727,7 +1802,7 @@ const QA={
         else if(r<.67){const it=S.board.map((v,j)=>v&&v.t==='i'?j:-1).filter(j=>j>=0);if(it.length){sellItem(R_(it));act='sell'}}
         else if(r<.69){const it=S.board.map((v,j)=>v&&v.t==='i'?j:-1).filter(j=>j>=0);if(it.length){storeItem(R_(it));act='store'}}
         else if(r<.71){toggleBoost();act='boost'}
-        else if(r<.76){S.coins+=600;if(!S.board.some(v=>v&&v.c==='tools'&&v.t==='i')){const j=nearestEmpty(0);if(j>=0)S.board[j]={t:'i',c:'tools',l:7}}selB=null;renderIsland();const b=$('bBuild');if(b&&!b.disabled)b.click();const sb=$('bSail');if(sb&&Math.random()<.5)sb.click();act='build'}
+        else if(r<.76){S.coins+=4000;selB=null;renderIsland();if(!islDone())bReqs(S.island,S.bs[selB]).forEach(r=>{if(reqAt(r)<0){const j=nearestEmpty(0);if(j>=0)S.board[j]={t:'i',c:r.c,l:r.l}}});renderIsland();const b=$('bBuild');if(b&&!b.disabled)b.click();const sb=$('bSail');if(sb&&Math.random()<.5)sb.click();act='build'}
         else if(r<.78){const b=S.board.findIndex(v=>v&&v.t==='b');if(b>=0){S.gems+=20;popBubble(b);const bt=document.querySelector('#modal .btns button');bt&&bt.click();act='bubble'}}
         else if(r<.80){if(S.packs.b)openPack('b');act='pack'}
         else if(r<.82){addXP(25);act='xp'}
@@ -1819,13 +1894,13 @@ function renderCreator(){
     if(!same&&!(await Nick.claim(n,old))){go.disabled=false;err('nickTaken',Nick.suggest(n));return}
     go.disabled=false;
     const edit=CC._edit;delete CC._edit;CC.nick=n;S.player={hero:CC.hero,nick:n};save();$('creator').classList.remove('on');sfx('level');renderHUD();
-    if(!edit){layout();refresh();toast(t('hi',n));if(S.tut>=3&&S.daily!==today())setTimeout(openDaily,600)}else{refresh();rerenderPanel()}};
+    if(!edit){layout();refresh();toast(t('hi',n));if(S.tut>=3&&S.daily!==today())setTimeout(openDaily,600);setTimeout(hqIntro,900)}else{refresh();rerenderPanel()}};
 }
 
 /* =================== login / sign up screen =================== */
 let authMode='main',authUp=false;
 function showAuth(){authMode='main';renderAuth();$('auth').classList.add('on')}
-function hideAuth(){$('auth').classList.remove('on');if(!S.player){showCreator(false);return}layout();refresh();if(S.tut>=3&&S.daily!==today())setTimeout(openDaily,500)}
+function hideAuth(){$('auth').classList.remove('on');if(!S.player){showCreator(false);return}layout();refresh();if(S.tut>=3&&S.daily!==today())setTimeout(openDaily,500);setTimeout(hqIntro,800)}
 function authErr(m){const e=$('aErr');if(e){e.textContent=m;e.classList.add('on')}}
 async function doAuth(provider,email,pw,name){
   try{await Auth.signIn(provider,email,pw,authUp?'up':'in',name);chime(3,620);hideAuth();if(S.player&&S.player.nick){Nick.taken(S.player.nick).then(tk=>{if(tk){showCreator(true);setTimeout(()=>{const e=$('ccErr');if(e){e.textContent=t('nickTaken');e.classList.add('on')}},50)}else Nick.claim(S.player.nick)})}if(Native.P&&!Auth.u.sim)Native.P.logIn({appUserID:Auth.u.uid}).catch(()=>{})}catch(e){authErr(t('authFail'))}
@@ -1869,7 +1944,7 @@ function renderAuth(){
   a.querySelectorAll('[data-l]').forEach(b=>b.onclick=()=>{S.lang=b.dataset.l;save();applyLang();renderAuth()});
 }
 /* =================== v9 systems: boost, chests, discovery, sell undo, daily challenge, town, music =================== */
-const BOOST2=4,BOOST4=10;
+const BOOST2=10,BOOST4=20;
 function renderBoost(){
   const b=$('boostBtn');if(!b)return;
   const lock=S.lvl<BOOST2;b.className='dbtn'+(lock?' lockd':S.boost===2?' b2':S.boost===4?' b4':'');
@@ -1887,7 +1962,7 @@ function placeChest(k){
   if(j<0){S.inv.push(v);return}S.board[j]=v;freshCell=j;
 }
 function openChest(i){
-  const v=S.board[i];if(!v||v.t!=='c')return;S.undo=null;
+  const v=S.board[i];if(!v||v.t!=='c')return;S.undo=null;mEv('chest');
   const cs=chainsOpen();let out=0;
   while(v.n>0){const j=nearestEmpty(i);if(j<0)break;
     const r=Math.random();let it;
@@ -1919,16 +1994,20 @@ function openChain(i){
     btns:[...(isItem?[{t:t('store'),cls:'ghostb',f:()=>{storeItem(i)}},{t:`${t('sellFor')} ${ic('coin')} ${Math.pow(2,v.l-1)}`,cls:'gold',f:()=>sellItem(i)}]:[]),{t:t('close'),cls:isItem?'ghostb':'gold'}]});
 }
 /* ---- daily challenge ---- */
-const DCI={spawn:'q_spawn',merge:'q_merge',deliver:'q_deliver',coins:'q_coins',energy:'bolt',boost:'bolt',make:'star',gems:'q_gems'};
+const DCI={spawn:'q_spawn',merge:'q_merge',deliver:'q_deliver',coins:'q_coins',energy:'bolt',boost:'bolt',make:'star',gems:'q_gems',chest:'chest2',build:'q_build',who:'q_deliver',chain:'star'};
 function dcState(){
   if(!S.dc||S.dc.d!==today()){
-    const L0=S.lvl,types=['spawn','merge','deliver','coins','energy','make'];if(S.lvl>=BOOST2)types.push('boost');if(S.lvl>=4)types.push('gems');
+    const L0=S.lvl,cs=chainsOpen(),ppl=['lili','mo','noa','kai'];
+    let types=['spawn','merge','deliver','coins','energy','make','chain','who','chest','build'];if(S.lvl>=BOOST2)types.push('boost');if(S.lvl>=4)types.push('gems');
     const pick=types.sort(()=>Math.random()-.5).slice(0,6);
-    const q=pick.map(tp=>{let g=1,p=0;
-      if(tp==='spawn')g=25+L0*3;if(tp==='merge')g=15+L0*2;if(tp==='deliver')g=4+Math.floor(L0/4);if(tp==='coins')g=Math.round((100+L0*40)/10)*10;
-      if(tp==='energy')g=60+L0*5;if(tp==='boost')g=10;if(tp==='make')p=Math.min(6,3+Math.floor(L0/8));if(tp==='gems')g=2;
-      const rw=[{k:'coins',v:25+L0*10},{k:'energy',v:15},{k:'gems',v:3}][Math.floor(Math.random()*3)];
-      return {t:tp,g,p,c:0,rw,cl:0}});
+    const q=pick.map(tp=>{let g=1,p=0,x='';
+      if(tp==='spawn')g=30+L0*3;if(tp==='merge')g=20+L0*2;if(tp==='deliver')g=4+Math.floor(L0/4);if(tp==='coins')g=Math.round((150+L0*50)/10)*10;
+      if(tp==='energy')g=70+L0*5;if(tp==='boost')g=10;if(tp==='make')p=Math.min(9,3+Math.floor(L0/6));if(tp==='gems')g=2;
+      if(tp==='chain'){x=cs[Math.floor(Math.random()*cs.length)];p=Math.min(8,3+Math.floor(L0/7));g=2}
+      if(tp==='who'){x=ppl[Math.floor(Math.random()*ppl.length)];g=2+Math.floor(L0/10)}
+      if(tp==='chest')g=2;if(tp==='build')g=1+Math.floor(L0/15);
+      const rw=[{k:'coins',v:30+L0*12},{k:'energy',v:20},{k:'gems',v:3}][Math.floor(Math.random()*3)];
+      return {t:tp,g,p,x,c:0,rw,cl:0}});
     S.dc={d:today(),q,pts:0,mc:[0,0,0]};
   }
   return S.dc;
@@ -2024,7 +2103,7 @@ document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>go('Board'));
 document.querySelectorAll('[data-a]').forEach(e=>e.innerHTML=A(e.dataset.a));
 applyLang();layout();refresh();
 Auth.load();
-if(!Auth.u)showAuth();else if(!S.player)showCreator(false);else if(S.tut>=3&&S.daily!==today())setTimeout(openDaily,600);
+if(!Auth.u)showAuth();else if(!S.player)showCreator(false);else{if(S.tut>=3&&S.daily!==today())setTimeout(openDaily,600);setTimeout(hqIntro,900)}
 Native.init();
 </script>
 </body>
