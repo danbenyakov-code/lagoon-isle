@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "114134812754",
+    "project_id": "lagoon-isle",
+    "storage_bucket": "lagoon-isle.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:114134812754:android:a1582a7800b5638916b78b",
+        "android_client_info": {
+          "package_name": "com.lagoonisle.merge"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "114134812754-do27cdnthdnnf0d1c8cc4768q4ce1sqi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lagoonisle.merge",
+            "certificate_hash": "5454e036ad935924d742d23a712797893574206a"
+          }
+        },
+        {
+          "client_id": "114134812754-rvrp85t4bd8f8rvfq29sobrh0tvi58no.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7Q7D4AKtrogKkIlGiD_tost9m28dLhCc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "114134812754-rvrp85t4bd8f8rvfq29sobrh0tvi58no.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

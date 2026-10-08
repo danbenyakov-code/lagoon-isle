@@ -1,0 +1,18 @@
+{
+  "appId": "com.lagoonisle.merge",
+  "appName": "Lagoon Isle",
+  "webDir": "www",
+  "backgroundColor": "#0E7C86",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 1500,
+      "launchAutoHide": true,
+      "backgroundColor": "#0E7C86",
+      "showSpinner": false
+    },
+    "FirebaseAuthentication": {
+      "skipNativeAuth": false,
+      "providers": ["google.com", "apple.com", "facebook.com", "password"]
+    }
+  }
+}

@@ -1,0 +1,83 @@
+name: Build Android app
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Restore Firebase config from secret (optional)
+        env:
+          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: |
+          if [ -n "$GOOGLE_SERVICES_JSON" ]; then echo "$GOOGLE_SERVICES_JSON" > firebase/google-services.json; fi
+
+      - name: Install
+        run: |
+          npm install --no-audit --no-fund
+          # Without Firebase config the login plugins would crash the app, so leave them out
+          if [ ! -f firebase/google-services.json ]; then
+            npm uninstall @capacitor-firebase/authentication @capacitor-firebase/firestore firebase
+          fi
+
+      - name: Create Android project
+        env:
+          BUILD_NUMBER: ${{ github.run_number }}
+        run: |
+          npx cap add android
+          npx capacitor-assets generate --android
+          node scripts/prepare-android.mjs
+          npx cap sync android
+
+      - name: Build test APK
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Upload test APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: lagoon-isle-test-apk
+          path: android/app/build/outputs/apk/debug/*.apk
+
+      - name: Restore signing key (only when secrets exist)
+        id: key
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+        run: |
+          if [ -n "$KEYSTORE_BASE64" ]; then
+            echo "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/release.keystore"
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build store bundle (.aab)
+        if: steps.key.outputs.ok == 'true'
+        working-directory: android
+        env:
+          KEYSTORE_FILE: ${{ runner.temp }}/release.keystore
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: ./gradlew bundleRelease
+
+      - name: Upload store bundle
+        if: steps.key.outputs.ok == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: lagoon-isle-store-aab
+          path: android/app/build/outputs/bundle/release/*.aab

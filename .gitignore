@@ -1,0 +1,7 @@
+node_modules/
+android/
+ios/
+*.keystore
+*.jks
+lagoon-SECRETS/
+.DS_Store

@@ -1,0 +1,50 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function isOwner(uid) { return signedIn() && request.auth.uid == uid; }
+    // Public card shown in rankings and friend lists. Small and validated.
+    function validCard() {
+      let d = request.resource.data;
+      return d.keys().hasOnly(['nick','hero','lvl','island','pts','at'])
+        && d.nick is string && d.nick.size() >= 3 && d.nick.size() <= 14
+        && d.lvl is int && d.lvl >= 1 && d.lvl <= 50
+        && d.island is int && d.island >= 0 && d.island <= 4
+        && d.pts is int && d.pts >= 0 && d.pts <= 100000;
+    }
+
+    // Saved game: only the owner can read or write it
+    match /users/{uid} {
+      allow read, write: if isOwner(uid);
+    }
+
+    // Unique nicknames. Document id = normalized nickname.
+    // Can only be created, never taken over, so two players can never hold the same name.
+    match /nicknames/{key} {
+      allow read: if signedIn();
+      allow create: if signedIn() && request.resource.data.uid == request.auth.uid
+                    && key.size() >= 3 && key.size() <= 20;
+      allow update: if signedIn() && resource.data.uid == request.auth.uid
+                    && request.resource.data.uid == request.auth.uid;
+      allow delete: if signedIn() && resource.data.uid == request.auth.uid;
+    }
+
+    // Remote ad reward tuning (read only from the app, edit in the Firebase console)
+    match /config/{doc} {
+      allow read: if signedIn();
+      allow write: if false;
+    }
+
+    // Public profile for friends
+    match /profiles/{uid} {
+      allow read: if signedIn();
+      allow write: if isOwner(uid) && validCard();
+    }
+
+    // Weekly lantern ranking, one collection per week (lb_<week>)
+    match /{board}/{uid} {
+      allow read: if signedIn() && board.matches('lb_.*');
+      allow write: if board.matches('lb_.*') && isOwner(uid) && validCard();
+    }
+  }
+}

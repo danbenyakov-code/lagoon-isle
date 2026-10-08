@@ -1,0 +1,29 @@
+{
+  "name": "lagoon-isle",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Lagoon Isle merge game",
+  "scripts": {
+    "android:prepare": "npx cap add android && npx capacitor-assets generate --android && node scripts/prepare-android.mjs && npx cap sync android",
+    "android:open": "npx cap open android",
+    "ios:prepare": "npx cap add ios && npx capacitor-assets generate --ios && npx cap sync ios"
+  },
+  "dependencies": {
+    "@capacitor-community/admob": "^8.2.0",
+    "@capacitor-firebase/authentication": "^8.5.2",
+    "@capacitor-firebase/firestore": "^8.5.2",
+    "@capacitor/android": "^8.5.2",
+    "@capacitor/app": "^8.1.2",
+    "@capacitor/core": "^8.5.2",
+    "@capacitor/ios": "^8.5.2",
+    "@capacitor/local-notifications": "^8.3.1",
+    "@capacitor/splash-screen": "^8.0.2",
+    "@capacitor/status-bar": "^8.0.4",
+    "@revenuecat/purchases-capacitor": "^13.7.0",
+    "firebase": "^12.6.0"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
+    "@capacitor/cli": "^8.5.2"
+  }
+}
