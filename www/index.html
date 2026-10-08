@@ -1690,10 +1690,67 @@ function openTester(){
     [he?'⭐ קפוץ לרמה 10':'⭐ Jump to level 10',()=>{while(S.lvl<10)addXP(need(S.lvl)-S.xp)}],[he?'🏝️ השלם את האי':'🏝️ Finish island',()=>{S.bs=Array(6).fill(3)}],
     [he?'🎁 אפס מתנה ופרסומות':'🎁 Reset gift and ads',()=>{S.daily='';S.ads=null}],[he?'💠 אבן חן על הלוח':'💠 Gem on board',()=>{const j=nearestEmpty(17);if(j>=0)S.board[j]={t:'i',c:'gem',l:1}}],
     [he?'🐷 מלא קופה':'🐷 Fill piggy',()=>S.piggy=PIG_MAX],[he?'🎴 2 חבילות זהב':'🎴 2 gold packs',()=>S.packs.g+=2],
-    [he?'📋 השלם משימות':'📋 Complete tasks',()=>S.ms.forEach(m=>m.c=m.g)],[he?'⚡ אפס אנרגיה':'⚡ Zero energy',()=>{S.energy=0;S.lastE=Date.now()}],[he?'🎁 תיבה על הלוח':'🎁 Chest on board',()=>placeChest(3)],[he?'⏱️ הזמנה מוגבלת':'⏱️ Timed order',()=>{S.orders[2].exp=Date.now()+15*60e3}],[he?'📋 השלם אתגר יומי':'📋 Finish daily quests',()=>dcState().q.forEach(m=>m.c=m.g)],[he?'🔁 אפס אתגר יומי':'🔁 New daily quests',()=>{S.dc=null}]];
+    [he?'📋 השלם משימות':'📋 Complete tasks',()=>S.ms.forEach(m=>m.c=m.g)],[he?'🧪 בדיקת באגים מלאה':'🧪 Full bug test',()=>{closeModal();setTimeout(()=>QA.ui(),200)}],[he?'⚡ אפס אנרגיה':'⚡ Zero energy',()=>{S.energy=0;S.lastE=Date.now()}],[he?'🎁 תיבה על הלוח':'🎁 Chest on board',()=>placeChest(3)],[he?'⏱️ הזמנה מוגבלת':'⏱️ Timed order',()=>{S.orders[2].exp=Date.now()+15*60e3}],[he?'📋 השלם אתגר יומי':'📋 Finish daily quests',()=>dcState().q.forEach(m=>m.c=m.g)],[he?'🔁 אפס אתגר יומי':'🔁 New daily quests',()=>{S.dc=null}]];
   modal({title:t('tester'),html:`<div class="tgrid">${T.map((x,k)=>`<button class="btn ${k%3===0?'gold':k%3===1?'blue':''}" data-k="${k}">${x[0]}</button>`).join('')}</div>`,btns:[{t:t('close'),cls:'ghostb'}],after:()=>{
     $('modal').querySelectorAll('.tgrid [data-k]').forEach(b=>b.onclick=()=>{T[+b.dataset.k][1]();save();refresh();rerenderPanel();toast('✓ '+T[+b.dataset.k][0])})}});
 }
+
+/* =================== built-in end-to-end self test (TEST_MODE) =================== */
+const QA={
+  inv(){const P=[],bad=m=>P.push(m);
+    if(S.board.length!==N)bad('board size');
+    S.board.forEach((v,i)=>{if(!v)return;if(!['i','g','c','b'].includes(v.t))bad('bad tile '+i);
+      if((v.t==='i'||v.t==='b')&&(!CH[v.c]||!(v.l>=1&&v.l<=CH[v.c].max)))bad('bad item '+v.c+v.l);
+      if(v.t==='g'&&!CH[v.c])bad('bad generator '+v.c);if(v.t==='c'&&!(v.k>=1&&v.k<=3))bad('bad chest')});
+    ['coins','gems','energy','xp','lvl','piggy'].forEach(k=>{if(!Number.isInteger(S[k])||S[k]<0)bad(k+' = '+S[k])});
+    if(S.lvl<1||S.lvl>MAXLV)bad('level out of range');
+    if(S.orders.length!==3||S.orders.some(o=>!o||!o.req||!o.req.length))bad('orders broken');
+    S.orders.forEach(o=>o&&o.req&&o.req.forEach(r=>{if(!CH[r.c]||CH[r.c].ev||r.c==='gem'||r.c==='tools')bad('order asks '+r.c)}));
+    if(!Array.isArray(S.bs)||S.bs.length!==6||S.bs.some(x=>x<0||x>3))bad('buildings '+S.bs);
+    if(S.island<0||S.island>=ISL.length)bad('island');
+    if(S.inv.some(v=>!v))bad('storage hole');
+    const g=S.board.concat(S.inv).filter(v=>v&&v.t==='g').map(v=>v.c);if(new Set(g).size!==g.length)bad('duplicate generator');
+    try{JSON.parse(JSON.stringify(S))}catch(e){bad('save not serializable')}
+    return P},
+  async run(n=1500){
+    const snap=JSON.stringify(S),snd=S.sound,mus=S.music,oldToast=window.toast;S.sound=false;Music.stop&&Music.stop();
+    const rep={steps:0,actions:{},errors:[],inv:{},t0:Date.now()},R_=a=>a[Math.floor(Math.random()*a.length)],add=(o,k)=>o[k]=(o[k]||0)+1;
+    const realShowAd=window.showAd;window.showAd=(k,f)=>{if(adCan(k)){const a=adsState();a[k]++;a.n++;f()}};
+    S.tut=3;closeModal();
+    for(let i=0;i<n;i++){
+      try{if(modalOpen){closeModal();continue}
+        if(S.energy<10)S.energy+=50;const r=Math.random();let act='';
+        if(r<.28){const gs=S.board.map((v,j)=>v&&v.t==='g'?j:-1).filter(j=>j>=0);if(gs.length){spawn(R_(gs));act='spawn'}}
+        else if(r<.52){const m={};let pr=null;S.board.forEach((v,j)=>{if(v&&v.t==='i'&&v.l<CH[v.c].max){const k=v.c+v.l;if(m[k]!=null&&!pr)pr=[m[k],j];m[k]=j}});if(pr){drop(pr[0],pr[1]);act='merge'}}
+        else if(r<.60){const o=Math.floor(Math.random()*3);deliver(o);deliver(o);act='deliver'}
+        else if(r<.64){const c=S.board.findIndex(v=>v&&v.t==='c');if(c>=0){openChest(c);act='chest'}}
+        else if(r<.67){const it=S.board.map((v,j)=>v&&v.t==='i'?j:-1).filter(j=>j>=0);if(it.length){sellItem(R_(it));act='sell'}}
+        else if(r<.69){const it=S.board.map((v,j)=>v&&v.t==='i'?j:-1).filter(j=>j>=0);if(it.length){storeItem(R_(it));act='store'}}
+        else if(r<.71){toggleBoost();act='boost'}
+        else if(r<.76){S.coins+=600;if(!S.board.some(v=>v&&v.c==='tools'&&v.t==='i')){const j=nearestEmpty(0);if(j>=0)S.board[j]={t:'i',c:'tools',l:7}}selB=null;renderIsland();const b=$('bBuild');if(b&&!b.disabled)b.click();const sb=$('bSail');if(sb&&Math.random()<.5)sb.click();act='build'}
+        else if(r<.78){const b=S.board.findIndex(v=>v&&v.t==='b');if(b>=0){S.gems+=20;popBubble(b);const bt=document.querySelector('#modal .btns button');bt&&bt.click();act='bubble'}}
+        else if(r<.80){if(S.packs.b)openPack('b');act='pack'}
+        else if(r<.82){addXP(25);act='xp'}
+        else if(r<.84){if(S.lvl>=4){openEvent();document.querySelectorAll('#modal .evm.ready').forEach(b=>b.click())}act='event'}
+        else if(r<.86){const sp=S.board.map((v,j)=>v?-1:j).filter(j=>j>=0),it=S.board.map((v,j)=>v&&v.t!=='b'?j:-1).filter(j=>j>=0);if(sp.length&&it.length){drop(R_(it),R_(sp));act='move'}}
+        else if(r<.89){const k=R_(ADK);showAd(k,()=>{});act='ad'}
+        else if(r<.92){renderMissions();renderCards();renderShop();act='screens'}
+        else{sel=-1;renderInfo();const pb=$('prodB');if(pb){pb.click();act='produce'}}
+        if(act)add(rep.actions,act);rep.steps++;
+        QA.inv().forEach(x=>add(rep.inv,x));
+      }catch(e){rep.errors.push((e.message||e)+'');if(rep.errors.length>20)break}
+      if(i%100===0)await new Promise(r=>setTimeout(r,0));
+    }
+    rep.ms=Date.now()-rep.t0;rep.reached={lvl:S.lvl,island:S.island};
+    window.showAd=realShowAd;S=JSON.parse(snap);S.sound=snd;S.music=mus;migrate();save();closeModal();go('Board');refresh();if(S.music&&Music.start)Music.start();
+    return rep},
+  async ui(){toast('🧪 …');const r=await QA.run();const ok=!r.errors.length&&!Object.keys(r.inv).length;
+    const list=(o)=>Object.entries(o).map(([k,v])=>`<li>${k}: ${v}</li>`).join('');
+    modal({e:ok?'check':'lock',title:ok?'Self-test passed':'Self-test found problems',
+      html:`<div style="text-align:start;font-size:13px"><b>${r.steps}</b> actions in ${(r.ms/1000).toFixed(1)}s · reached level ${r.reached.lvl}, island ${r.reached.island+1}<ul>${list(r.actions)}</ul>${r.errors.length?`<b>Errors</b><ul>${r.errors.map(e=>`<li>${e}</li>`).join('')}</ul>`:''}${Object.keys(r.inv).length?`<b>Rule violations</b><ul>${list(r.inv)}</ul>`:''}<p class="muted">Your real progress was restored after the test.</p></div>`,
+      btns:[{t:t('close'),cls:'gold'}]})}
+};
+window.QA=QA;
 
 /* =================== nickname rules + uniqueness =================== */
 const Nick={
