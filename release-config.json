@@ -1,6 +1,6 @@
 {
   "_help": "Fill these before the store release. Test values work for internal testing.",
-  "admobAppIdAndroid": "ca-app-pub-3940256099942544~3347511713",
+  "admobAppIdAndroid": "ca-app-pub-9074731349412469~9214604402",
   "admobAppIdIos": "ca-app-pub-3940256099942544~1458002511",
   "facebookAppId": "",
   "facebookClientToken": "",
