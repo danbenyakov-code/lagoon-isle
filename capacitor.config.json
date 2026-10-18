@@ -12,7 +12,11 @@
     },
     "FirebaseAuthentication": {
       "skipNativeAuth": false,
-      "providers": ["google.com", "apple.com", "facebook.com", "password"]
+      "providers": [
+        "google.com",
+        "apple.com",
+        "password"
+      ]
     }
   }
 }
