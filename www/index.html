@@ -70,6 +70,8 @@ img{-webkit-user-drag:none;user-select:none}
 .pill .val{flex:1;min-width:0;text-align:center;font-weight:800;font-size:15px;line-height:1;white-space:nowrap}
 .pill .val small{display:block;font-size:9.5px;font-weight:600;color:var(--muted);margin-top:2px}
 .pill.en{flex:1.3}.pill.ge{flex:1.15}
+.pill.ge .val,.pill.en .val{letter-spacing:-.4px}
+
 .plus{width:22px;height:22px;border-radius:50%;background:var(--primary);color:#fff;font-weight:800;font-size:16px;line-height:22px;text-align:center;flex:none;box-shadow:inset 0 -2px 0 rgba(0,0,0,.18)}
 .iconbtn{width:40px;height:40px;border-radius:14px;background:rgba(255,255,255,.96);padding:6px;flex:none;box-shadow:0 2px 0 rgba(20,60,110,.18)}
 
@@ -759,6 +761,9 @@ html[lang="he"] .hqtag{font-family:'Rubik',sans-serif;font-weight:800}
 .tierw.t3 img,.tierw.t4 img{filter:drop-shadow(0 0 6px #B98BFF) saturate(1.4) hue-rotate(15deg)}
 .tierw.t5 img{filter:drop-shadow(0 0 8px #FF7AB0) saturate(1.6) hue-rotate(-20deg)}
 .tierw b{position:absolute;top:-2px;inset-inline-end:-2px;min-width:18px;height:18px;border-radius:9px;background:linear-gradient(#FFD453,#F5A315);color:#5A3300;font-size:10px;line-height:18px;text-align:center;box-shadow:0 0 0 1.5px #fff}
+
+/* HUD fit on narrow phones */
+@media (max-width:440px){.hud{gap:5px!important;padding-inline:8px!important}.hud .pill .val{font-size:13px}.hud .pill .ic{width:28px;height:28px;margin-inline-start:-4px}.hud .pill .plus{width:20px;height:20px;margin-inline-end:2px}.hud .pill.co{flex:1}.hud .pill.co .val{padding-inline-end:4px}.hud .pill.en,.hud .pill.ge{flex:1.3}}
 </style>
 </head>
 <body>
@@ -983,7 +988,7 @@ const today=()=>new Date().toDateString();
 /* =================== CONFIG: fill these before store release =================== */
 const CONFIG={
   VERSION:'1.0.0',
-  TEST_MODE:true,              /* true: Google test ads + tester panel. Set false for the store release. */
+  TEST_MODE:false,              /* true: Google test ads + tester panel. Set false for the store release. */
   FIREBASE:true,               /* login + cloud save through Firebase (needs google-services.json / GoogleService-Info.plist) */
   REVENUECAT_KEY_ANDROID:'goog_REPLACE_ME',
   REVENUECAT_KEY_IOS:'appl_REPLACE_ME',
@@ -1176,7 +1181,7 @@ function renderHUD(){
   $('hLvl').textContent=S.lvl;
   const pct=S.lvl>=MAXLV?1:S.xp/need(S.lvl);$('xpRing').setAttribute('stroke-dasharray',(138.2*pct).toFixed(1)+' 139');
   const ak=JSON.stringify(S.player||0);if($('hAv').dataset.k!==ak){$('hAv').dataset.k=ak;$('hAv').innerHTML=S.player?avatar('me'):''}
-  $('hEn').textContent=S.energy;$('hCo').textContent=fmtN(S.coins);$('hGe').textContent=fmtN(S.gems);
+  $('hEn').textContent=S.energy;$('hCo').textContent=fmtN(S.coins);$('hGe').textContent=S.gems>=1000?(S.gems/1000).toFixed(S.gems<10000?1:0).replace(/\.0$/,'')+'K':S.gems;
   if(S.energy>=E_MAX)$('hEnT').textContent=t('full');else{const left=Math.max(0,E_SEC-Math.floor((Date.now()-S.lastE)/1000));$('hEnT').textContent=Math.floor(left/60)+':'+String(left%60).padStart(2,'0')}
   renderBadges();renderEvBtn();
   {const be=document.getElementById('board');if(be)be.classList.toggle('noen',S.energy<=0)}
@@ -1675,29 +1680,31 @@ function openDaily(){modal(dailyModal())}
 
 /* =================== shop (purchases and ads simulated in this build) =================== */
 function fmt(ms){ms=Math.max(0,ms);const s=Math.floor(ms/1000);return String(Math.floor(s/3600)).padStart(2,'0')+':'+String(Math.floor(s/60)%60).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}
+const PAY=()=>!Native.on||!!Native.P;
 async function buyReal(label,key,fn){
+  if(!PAY()){toast(t('buyFail'));return}
   if(Native.P){try{await Native.buy(key)}catch(e){if(!(e&&(e.userCancelled||/cancel/i.test(String(e.message||e.code||'')))))toast(t('buyFail'));return}}
   fn();chime(2,880);save();refresh();renderShop();toast(t('bought',label))}
 function renderShop(){
   const gl=adLeft('gems'),dAv=S.daily!==today();
   let h=`<h2>${t('shop')}</h2>`;
-  if(!S.offerBought&&S.offerEnd>Date.now())h+=`<div class="card offer"><div class="row"><div class="art">${A('shop_starter')}</div><div class="grow"><span class="timer" id="offT">${fmt(S.offerEnd-Date.now())}</span><div class="big" style="margin-top:6px">${t('starter')}</div><div style="font-weight:800;margin-top:2px">${ic('gem')} 300 ${ic('bolt')} 200 ${ic('coin')} 500</div><span class="muted" style="color:#7A4A00">${t('once')}</span></div></div><button class="btn coral wide" style="margin-top:12px" id="bOffer">${price('starter','₪14.90')}</button></div>`;
+  if(PAY()&&!S.offerBought&&S.offerEnd>Date.now())h+=`<div class="card offer"><div class="row"><div class="art">${A('shop_starter')}</div><div class="grow"><span class="timer" id="offT">${fmt(S.offerEnd-Date.now())}</span><div class="big" style="margin-top:6px">${t('starter')}</div><div style="font-weight:800;margin-top:2px">${ic('gem')} 300 ${ic('bolt')} 200 ${ic('coin')} 500</div><span class="muted" style="color:#7A4A00">${t('once')}</span></div></div><button class="btn coral wide" style="margin-top:12px" id="bOffer">${price('starter','₪14.90')}</button></div>`;
   h+=`<div class="sectionT">${t('free')}</div><div class="grid2">
    <div class="pack"><div class="e">${A('gift')}</div><div class="q">${t('daily')}</div><button class="btn ${dAv?'gold':'ghostb'}" id="bD">${dAv?t('collect'):fmt(untilMidnight())}</button></div>
    ${CONFIG.ADS.gems.max>0?`<div class="pack"><div class="e">${A('tv')}</div><div class="q">+${ic('gem')} ${CONFIG.ADS.gems.reward} <span class="muted">${gl}/${CONFIG.ADS.gems.max}</span></div><button class="btn blue" id="bAdG" ${gl>0?'':'disabled'}>${t('watch')}</button></div>`:''}</div>`;
-  h+=`<div class="card piggy"><div class="row"><div class="thumb" style="background:#fff">${A('piggy')}</div><div class="grow"><div class="ttl">${t('piggy')}</div><div class="prog"><i style="width:${100*S.piggy/PIG_MAX}%"></i></div><span class="muted">${ic('gem')} ${S.piggy}/${PIG_MAX} · ${t('piggyMin',PIG_MIN)}</span></div><button class="btn coral sm" id="bPig" ${S.piggy>=PIG_MIN?'':'disabled'}>${price('piggy','₪9.90')}</button></div></div>`;
+  if(PAY())h+=`<div class="card piggy"><div class="row"><div class="thumb" style="background:#fff">${A('piggy')}</div><div class="grow"><div class="ttl">${t('piggy')}</div><div class="prog"><i style="width:${100*S.piggy/PIG_MAX}%"></i></div><span class="muted">${ic('gem')} ${S.piggy}/${PIG_MAX} · ${t('piggyMin',PIG_MIN)}</span></div><button class="btn coral sm" id="bPig" ${S.piggy>=PIG_MIN?'':'disabled'}>${price('piggy','₪9.90')}</button></div></div>`;
   h+=`<div class="sectionT">${t('energyPacks')}</div><div class="grid3">
-   <div class="pack"><div class="e">${A('shop_e300')}</div><div class="q">${ic('bolt')} 300</div><button class="btn sm" data-e="300" data-p="e300">${price('e300','₪9.90')}</button></div>
-   <div class="pack"><span class="tag">${t('popular')}</span><div class="e">${A('shop_e1000')}</div><div class="q">${ic('bolt')} 1,000</div><button class="btn sm" data-e="1000" data-p="e1000">${price('e1000','₪24.90')}</button></div>
+   ${PAY()?`<div class="pack"><div class="e">${A('shop_e300')}</div><div class="q">${ic('bolt')} 300</div><button class="btn sm" data-e="300" data-p="e300">${price('e300','₪9.90')}</button></div>
+   <div class="pack"><span class="tag">${t('popular')}</span><div class="e">${A('shop_e1000')}</div><div class="q">${ic('bolt')} 1,000</div><button class="btn sm" data-e="1000" data-p="e1000">${price('e1000','₪24.90')}</button></div>`:''}
    <div class="pack"><div class="e">${A('bolt')}</div><div class="q">${ic('bolt')} 100</div><button class="btn gold sm" id="bE">${ic('gem')} 25</button></div></div>`;
-  h+=`<div class="sectionT">${t('gemPacks')}</div><div class="grid3">
+  if(PAY())h+=`<div class="sectionT">${t('gemPacks')}</div><div class="grid3">
    <div class="pack"><div class="e">${A('shop_g80')}</div><div class="q">${ic('gem')} 80</div><button class="btn sm" data-g="80" data-p="g80">${price('g80','₪4.90')}</button></div>
    <div class="pack"><span class="tag">${t('popular')}</span><div class="e">${A('shop_g500')}</div><div class="q">${ic('gem')} 500</div><button class="btn sm" data-g="500" data-p="g500">${price('g500','₪19.90')}</button></div>
    <div class="pack"><span class="tag">${t('value')}</span><div class="e">${A('shop_g1200')}</div><div class="q">${ic('gem')} 1,200</div><button class="btn sm" data-g="1200" data-p="g1200">${price('g1200','₪39.90')}</button></div></div>`;
   h+=`<div class="sectionT">${t('spendGems')}</div><div class="grid2">
    <div class="pack"><div class="e">${A('pack')}</div><div class="q">${t('goldShop')}</div><button class="btn gold" id="bP">${ic('gem')} 30</button></div>
    <div class="pack"><div class="e">${A('coin')}</div><div class="q">${ic('coin')} 400</div><button class="btn gold" id="bC">${ic('gem')} 40</button></div></div>
-  <p class="note">${t('sim')}</p>`;
+  ${Native.on?'':`<p class="note">${t('sim')}</p>`}`;
   $('shop').innerHTML=h;
   const o=$('bOffer');if(o)o.onclick=()=>buyReal(t('starter'),'starter',()=>{S.gems+=300;S.energy+=200;S.coins+=500;S.packs.g++;S.offerBought=true});
   $('shop').querySelectorAll('[data-g]').forEach(b=>b.onclick=()=>buyReal('💎'+b.dataset.g,b.dataset.p,()=>S.gems+=+b.dataset.g));
@@ -1708,7 +1715,7 @@ function renderShop(){
   $('bC').onclick=()=>spend(40,()=>S.coins+=400);
   $('bD').onclick=openDaily;
   if($('bAdG'))$('bAdG').onclick=()=>{const G=CONFIG.ADS.gems.reward;showAd('gems',()=>{S.gems+=G;toast('+💎'+G)})};
-  $('bPig').onclick=()=>{if(S.piggy<PIG_MIN)return;const g=S.piggy;buyReal('💎'+g,'piggy',()=>{S.gems+=g;S.piggy=0})};
+  if($('bPig'))$('bPig').onclick=()=>{if(S.piggy<PIG_MIN)return;const g=S.piggy;buyReal('💎'+g,'piggy',()=>{S.gems+=g;S.piggy=0})};
 }
 /* =================== settings =================== */
 function openSettings(){
@@ -1914,8 +1921,7 @@ function renderAuth(){
     a.innerHTML=`<div class="logoW"><img class="logo" src="art/logo.webp" alt="${t('title')}"><small>${t('tagline')}</small></div>${hero}
     <div class="sheet"><p class="lead">${t('authTag')}</p>
     <button class="abtn google" data-p="google"><span class="lg" style="color:#4285F4">G</span>${t('withGoogle')}</button>
-    <button class="abtn apple" data-p="apple"><span class="lg"></span>${t('withApple')}</button>
-    <button class="abtn fb" data-p="facebook"><span class="lg">f</span>${t('withFb')}</button>
+    ${/iPhone|iPad|iPod/.test(navigator.userAgent)?`<button class="abtn apple" data-p="apple"><span class="lg"></span>${t('withApple')}</button>`:''}
     <button class="abtn mail" id="aMail">${t('withMail')}</button>
     <div class="aerr" id="aErr"></div>
     <div class="or">${t('orTxt')}</div>
