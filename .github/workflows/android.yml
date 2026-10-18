@@ -3,7 +3,6 @@ name: Build Android app
 on:
   push:
     branches: [main]
-    paths-ignore: ['reef/**', 'marketing/**', '.github/workflows/android-reef.yml']
   workflow_dispatch:
 
 permissions:
