@@ -1049,7 +1049,7 @@ const Auth={u:null,
       if(provider==='email'){r=mode==='up'?await FA.createUserWithEmailAndPassword({email,password:pw}):await FA.signInWithEmailAndPassword({email,password:pw});if(mode==='up'&&name)try{await FA.updateProfile({displayName:name})}catch(e){}}
       const u=r&&r.user;if(!u)throw new Error('no user');this.u={uid:u.uid,name:u.displayName||name||'',email:u.email||'',provider};
     }else this.u={uid:'local-'+Date.now().toString(36),name:name||'',email:email||'',provider,sim:true};
-    this.store();await Cloud.pull();
+    this.store();await Cloud.pull();Cloud.family();
   },
   guest(){this.u={uid:'guest',provider:'guest'};this.store()},
   async reset(email){const FA=this.FA();if(FA)await FA.sendPasswordResetEmail({email})},
@@ -1062,6 +1062,12 @@ const Cloud={tm:null,
   push(){if(!this.ok())return;clearTimeout(this.tm);this.tm=setTimeout(()=>{Social.push();this.fs().setDocument({reference:'users/'+Auth.u.uid,data:{state:JSON.stringify(S),updated:Date.now()},merge:true}).catch(()=>{})},4000)},
   async pull(){if(!this.ok())return;loadAdConfig();try{const r=await this.fs().getDocument({reference:'users/'+Auth.u.uid});const d=r&&r.snapshot&&r.snapshot.data;
     if(d&&d.state){const rs=JSON.parse(d.state);if(rs&&rs.v===S.v&&(rs.saved||0)>(S.saved||0)){S=rs;migrate();try{localStorage.setItem(KEY,d.state)}catch(e){}applyLang();rerenderAll();toast(t('welcomeBack'))}}}catch(e){}},
+  /* shared Lagoon Isle account: marks the games this player has and pays a one-time bonus per other game */
+  async family(){if(!this.ok())return;const ref='lagoon_players/'+Auth.u.uid,N={reef:'Reef Rescue',garden:'Water Garden',merge:'Lagoon Isle'};
+    try{await this.fs().setDocument({reference:ref,data:{games:{merge:Date.now()},name:Auth.u.name||''},merge:true})}catch(e){}
+    try{const r=await this.fs().getDocument({reference:ref});const g=(r&&r.snapshot&&r.snapshot.data&&r.snapshot.data.games)||{};S.family=S.family||{};
+      for(const k of Object.keys(g)){if(k==='merge'||S.family[k])continue;S.family[k]=1;S.gems+=25;S.energy+=20;
+        toast(S.lang==='he'?`בונוס משפחת Lagoon Isle! 💎25 ⚡20 על משחק ב-${N[k]||k}`:`Lagoon Isle family bonus! 💎25 ⚡20 for playing ${N[k]||k}`)}save();rerenderAll()}catch(e){}},
   async remove(){if(!this.ok())return;try{await this.fs().deleteDocument({reference:'users/'+Auth.u.uid})}catch(e){}}
 };
 
@@ -2126,6 +2132,7 @@ applyLang();layout();refresh();
 Auth.load();
 if(!Auth.u)showAuth();else if(!S.player)showCreator(false);else{if(S.tut>=3&&S.daily!==today())setTimeout(openDaily,600);setTimeout(hqIntro,900)}
 Native.init();
+setTimeout(()=>{try{Cloud.family()}catch(e){}},4000);
 </script>
 </body>
 </html>
